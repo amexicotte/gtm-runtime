@@ -9,7 +9,7 @@ contracts, then writes accurate, explainable updates into the CRM. No rep has to
 type anything.
 
 I designed and built it as the go-to-market operator at a GTM advisory firm,
-where it ran the firm's real pipeline. This public copy is sanitized: the firm
+where it ran the firm's pipeline. This public copy is sanitized: the firm
 is renamed "Harbor Advisors," and all client, contact and workspace identifiers
 are fictional.
 
