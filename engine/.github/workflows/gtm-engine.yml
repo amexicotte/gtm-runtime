@@ -1,0 +1,39 @@
+name: harbor-gtm-engine
+
+# Scheduled runtime (no receiver, no standing infra). Cadence: every 30 min
+# during business hours. GitHub cron is UTC; 11:00–23:00 UTC ≈ 7am–7pm ET.
+# Also runnable on demand from the Actions tab.
+on:
+  schedule:
+    - cron: "*/30 11-23 * * 1-6"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Run without writing (logs intended actions)"
+        type: boolean
+        default: false
+
+# Never overlap runs — state lives in Notion and re-runs are idempotent, but one
+# at a time keeps logs clean and avoids double-posting Slack.
+concurrency:
+  group: gtm-engine
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Run one pass
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          OPENROUTER_MODEL: ${{ vars.OPENROUTER_MODEL }}      # optional override
+          NOTION_API_TOKEN: ${{ secrets.NOTION_API_TOKEN }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        run: |
+          python -m runtime.main ${{ (inputs.dry_run && '--dry-run') || '' }}

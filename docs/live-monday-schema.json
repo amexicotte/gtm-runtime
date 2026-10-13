@@ -1,0 +1,3388 @@
+{
+  "api_version": "2026-07",
+  "boards": [
+    {
+      "columns": [
+        {
+          "id": "name",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Name",
+          "type": "name"
+        },
+        {
+          "id": "subtasks_mm5s81e8",
+          "settings": {
+            "allowMultipleItems": true,
+            "boardIds": [
+              10000000048
+            ],
+            "displayType": "BOARD_INLINE",
+            "itemTypeName": "column.subtasks.title"
+          },
+          "target_board_ids": [
+            "10000000048"
+          ],
+          "title": "Subitems",
+          "type": "subtasks"
+        },
+        {
+          "id": "link_mm5rdhph",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Transcript",
+          "type": "link"
+        },
+        {
+          "id": "date_mm5ryvk",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Date",
+          "type": "date"
+        },
+        {
+          "id": "color_mm5r9tp0",
+          "settings": {
+            "labels": [
+              {
+                "color": 0,
+                "hex": "#fdab3d",
+                "id": 0,
+                "index": 6,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Partner"
+              },
+              {
+                "color": 1,
+                "hex": "#00c875",
+                "id": 1,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Sales"
+              },
+              {
+                "color": 2,
+                "hex": "#df2f4a",
+                "id": 2,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Vendor"
+              },
+              {
+                "color": 4,
+                "hex": "#9d50dd",
+                "id": 4,
+                "index": 3,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Project"
+              },
+              {
+                "color": 6,
+                "hex": "#037f4c",
+                "id": 6,
+                "index": 4,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Referral"
+              },
+              {
+                "color": 7,
+                "hex": "#579bfc",
+                "id": 7,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Intro"
+              },
+              {
+                "color": 17,
+                "hex": "#757575",
+                "id": 17,
+                "index": 5,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Internal"
+              },
+              {
+                "color": 19,
+                "hex": "#ff6d3b",
+                "id": 19,
+                "index": 2,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Client"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Call Type",
+          "type": "status"
+        },
+        {
+          "id": "color_mm5r3vta",
+          "settings": {
+            "labels": [
+              {
+                "color": 1,
+                "hex": "#00c875",
+                "id": 1,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "External"
+              },
+              {
+                "color": 17,
+                "hex": "#757575",
+                "id": 17,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Internal"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Internal/External",
+          "type": "status"
+        },
+        {
+          "id": "color_mm5rnd15",
+          "settings": {
+            "labels": [
+              {
+                "color": 0,
+                "hex": "#fdab3d",
+                "id": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Awaiting"
+              },
+              {
+                "color": 1,
+                "hex": "#00c875",
+                "id": 1,
+                "index": 3,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Processed"
+              },
+              {
+                "color": 2,
+                "hex": "#df2f4a",
+                "id": 2,
+                "index": 4,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Gated"
+              },
+              {
+                "color": 3,
+                "hex": "#007eb5",
+                "id": 3,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Processing"
+              },
+              {
+                "color": 7,
+                "hex": "#579bfc",
+                "id": 7,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Ready"
+              },
+              {
+                "color": 17,
+                "hex": "#757575",
+                "id": 17,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Awaiting transcript"
+              },
+              {
+                "color": 19,
+                "hex": "#ff6d3b",
+                "id": 19,
+                "index": 2,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Needs Review"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Processing Status",
+          "type": "status"
+        },
+        {
+          "id": "long_text_mm5r5a6w",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Summary",
+          "type": "long_text"
+        },
+        {
+          "id": "long_text_mm5rwmrf",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Action Items",
+          "type": "long_text"
+        },
+        {
+          "id": "long_text_mm5r7ht9",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Attendee Emails",
+          "type": "long_text"
+        },
+        {
+          "id": "boolean_mm5rwcq4",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Proposal Needed?",
+          "type": "checkbox"
+        },
+        {
+          "id": "multiple_person_mm5rpemd",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Owner",
+          "type": "people"
+        },
+        {
+          "id": "board_relation_mm5rmj06",
+          "settings": {
+            "allowCreateReflectionColumn": true,
+            "allowMultipleItems": true,
+            "boardIds": [
+              10000000002
+            ]
+          },
+          "target_board_ids": [
+            "10000000002"
+          ],
+          "title": "External Attendees",
+          "type": "board_relation"
+        },
+        {
+          "id": "board_relation_mm5r8ev7",
+          "settings": {
+            "allowCreateReflectionColumn": true,
+            "allowMultipleItems": true,
+            "boardIds": [
+              10000000001
+            ]
+          },
+          "target_board_ids": [
+            "10000000001"
+          ],
+          "title": "Account",
+          "type": "board_relation"
+        },
+        {
+          "id": "board_relation_mm5rf9wt",
+          "settings": {
+            "allowCreateReflectionColumn": true,
+            "allowMultipleItems": true,
+            "boardIds": [
+              10000000003
+            ]
+          },
+          "target_board_ids": [
+            "10000000003"
+          ],
+          "title": "Deal",
+          "type": "board_relation"
+        },
+        {
+          "id": "board_relation_mm5rznhx",
+          "settings": {
+            "allowCreateReflectionColumn": true,
+            "boardIds": [
+              10000000005
+            ]
+          },
+          "target_board_ids": [
+            "10000000005"
+          ],
+          "title": "link to Activities",
+          "type": "board_relation"
+        },
+        {
+          "id": "text_mm5sqk84",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Fireflies Transcript ID",
+          "type": "text"
+        },
+        {
+          "id": "text_mm5s8fwz",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Call Notes Prompt TS",
+          "type": "text"
+        },
+        {
+          "id": "text_mm5s1k1d",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Call Notes Last TS",
+          "type": "text"
+        },
+        {
+          "id": "text_mm5sqdv",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Notes Requested At",
+          "type": "text"
+        },
+        {
+          "id": "text_mm5s2yaa",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Notes Status",
+          "type": "text"
+        },
+        {
+          "id": "long_text_mm5sxyxr",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Manual Notes",
+          "type": "long_text"
+        },
+        {
+          "id": "text_mm5s5p08",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Slack Note IDs",
+          "type": "text"
+        },
+        {
+          "id": "text_mm5shkt2",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Prospect Account ID",
+          "type": "text"
+        },
+        {
+          "id": "text_mm5srtqj",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Partner Account IDs",
+          "type": "text"
+        },
+        {
+          "id": "text_mm5sz70x",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Contact IDs",
+          "type": "text"
+        },
+        {
+          "id": "text_mm5sxfan",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Resolved Deal ID",
+          "type": "text"
+        },
+        {
+          "id": "long_text_mm5s1fdv",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Fireflies Summary",
+          "type": "long_text"
+        },
+        {
+          "id": "long_text_mm5whjvp",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Attendee Details",
+          "type": "long_text"
+        },
+        {
+          "id": "long_text_mm5w5jhc",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Contact Email IDs",
+          "type": "long_text"
+        },
+        {
+          "id": "long_text_mm5wqgqh",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Reasoning Result",
+          "type": "long_text"
+        },
+        {
+          "id": "text_mm5wprms",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Processing Started At",
+          "type": "text"
+        },
+        {
+          "id": "date_mm5wq95n",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Follow-up Date",
+          "type": "date"
+        },
+        {
+          "id": "text_mm5wp7b",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Reasoning Cache",
+          "type": "text"
+        },
+        {
+          "id": "text_mm64bsnk",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Slack Intake TS",
+          "type": "text"
+        },
+        {
+          "id": "text_mm64yg9b",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Slack Intake User",
+          "type": "text"
+        },
+        {
+          "id": "text_mm64w31r",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Manual Notes Cache",
+          "type": "text"
+        },
+        {
+          "id": "text_mm64ttc6",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Reasoning Audit",
+          "type": "text"
+        },
+        {
+          "id": "text_mm64hqn5",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Reasoning Feedback",
+          "type": "text"
+        },
+        {
+          "id": "text_mm64seds",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Reasoning Score",
+          "type": "text"
+        },
+        {
+          "id": "text_mm648zgx",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Feedback Last TS",
+          "type": "text"
+        },
+        {
+          "id": "text_mm64m96n",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Reasoning Review TS",
+          "type": "text"
+        },
+        {
+          "id": "text_mm643ym5",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Manual Notes Chars",
+          "type": "text"
+        },
+        {
+          "id": "text_mm64pgbj",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Manual Notes SHA256",
+          "type": "text"
+        },
+        {
+          "id": "text_mm65npk4",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Manual Notes Payload",
+          "type": "text"
+        },
+        {
+          "id": "long_text_mm6csdfs",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Agent Field Provenance",
+          "type": "long_text"
+        }
+      ],
+      "groups": [
+        {
+          "id": "topics",
+          "title": "Group Title"
+        }
+      ],
+      "id": "10000000004",
+      "items_count": 103,
+      "key": "meeting",
+      "kind": "public",
+      "name": "Meetings",
+      "permissions": "everyone",
+      "state": "active",
+      "views": [
+        {
+          "id": "100000049",
+          "name": "Needs Review",
+          "type": "TableBoardView"
+        }
+      ],
+      "workspace_id": "10000012"
+    },
+    {
+      "columns": [
+        {
+          "id": "name",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Name",
+          "type": "name"
+        },
+        {
+          "id": "subitems",
+          "settings": {
+            "allowMultipleItems": true,
+            "boardIds": [
+              10000000050
+            ],
+            "displayType": "BOARD_INLINE",
+            "itemTypeName": "column.subtasks.title"
+          },
+          "target_board_ids": [
+            "10000000050"
+          ],
+          "title": "Subitems",
+          "type": "subtasks"
+        },
+        {
+          "id": "project_owner",
+          "settings": {
+            "max_people_allowed": "0"
+          },
+          "target_board_ids": [],
+          "title": "Owner",
+          "type": "people"
+        },
+        {
+          "id": "project_prority",
+          "settings": {
+            "labels": [
+              {
+                "color": 3,
+                "hex": "#007eb5",
+                "id": 0,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Medium"
+              },
+              {
+                "color": 107,
+                "hex": "#225091",
+                "id": 1,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": true,
+                "label": "High"
+              },
+              {
+                "color": 16,
+                "hex": "#66ccff",
+                "id": 2,
+                "index": 2,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Low"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Priority",
+          "type": "status"
+        },
+        {
+          "id": "project_timeline",
+          "settings": {
+            "show_set_as_milestone": false
+          },
+          "target_board_ids": [],
+          "title": "Timeline",
+          "type": "timeline"
+        },
+        {
+          "id": "project_status",
+          "settings": {
+            "labels": [
+              {
+                "color": 0,
+                "hex": "#fdab3d",
+                "id": 0,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Working on it"
+              },
+              {
+                "color": 1,
+                "hex": "#00c875",
+                "id": 1,
+                "index": 3,
+                "is_deactivated": false,
+                "is_done": true,
+                "label": "Done"
+              },
+              {
+                "color": 2,
+                "hex": "#df2f4a",
+                "id": 2,
+                "index": 2,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Stuck"
+              },
+              {
+                "color": 5,
+                "hex": "#c4c4c4",
+                "id": 5,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Not Started"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Status",
+          "type": "status"
+        },
+        {
+          "id": "project_opportunity",
+          "settings": {
+            "allowCreateReflectionColumn": true,
+            "boardId": 10000000003,
+            "boardIds": [
+              10000000003
+            ],
+            "dataSourceLayoutConfigs": {
+              "10000000003": {
+                "description": {
+                  "refId": "industry"
+                },
+                "info1": {
+                  "refId": "status"
+                },
+                "name": {
+                  "refId": "name"
+                }
+              }
+            },
+            "displayType": "CUSTOM",
+            "staticImage": "opportunities"
+          },
+          "target_board_ids": [
+            "10000000003"
+          ],
+          "title": "Deals",
+          "type": "board_relation"
+        },
+        {
+          "id": "project_contact",
+          "settings": {
+            "boardId": 10000000002,
+            "boardIds": [
+              10000000002
+            ],
+            "dataSourceLayoutConfigs": {
+              "10000000002": {
+                "description": {
+                  "refId": "title5"
+                },
+                "name": {
+                  "refId": "name"
+                }
+              }
+            },
+            "displayType": "CUSTOM",
+            "staticImage": "contacts"
+          },
+          "target_board_ids": [
+            "10000000002"
+          ],
+          "title": "Contact",
+          "type": "board_relation"
+        },
+        {
+          "id": "connect_boards",
+          "settings": {
+            "allowCreateReflectionColumn": true,
+            "boardId": 10000000001,
+            "boardIds": [
+              10000000001
+            ],
+            "dataSourceLayoutConfigs": {
+              "10000000001": {
+                "description": {
+                  "refId": "industry"
+                },
+                "name": {
+                  "refId": "name"
+                }
+              }
+            },
+            "displayType": "CUSTOM",
+            "staticImage": "accounts"
+          },
+          "target_board_ids": [
+            "10000000001"
+          ],
+          "title": "Accounts",
+          "type": "board_relation"
+        },
+        {
+          "id": "link_mm6ccmzf",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Slack Channel",
+          "type": "link"
+        },
+        {
+          "id": "text_mm6gdatv",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Collaboration Platform",
+          "type": "text"
+        },
+        {
+          "id": "link_mm6gxxpp",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Client Collaboration Channel",
+          "type": "link"
+        }
+      ],
+      "groups": [
+        {
+          "id": "new_group29179",
+          "title": "New Projects"
+        },
+        {
+          "id": "topics",
+          "title": "Completed"
+        }
+      ],
+      "id": "10000000006",
+      "items_count": 15,
+      "key": "client_project",
+      "kind": "public",
+      "name": "Client Projects",
+      "permissions": "owners",
+      "state": "active",
+      "views": [
+        {
+          "id": "100000051",
+          "name": "Gantt",
+          "type": null
+        },
+        {
+          "id": "100000052",
+          "name": "Build Vibe view",
+          "type": "FeatureBoardView"
+        },
+        {
+          "id": "100000053",
+          "name": "Commander | Active Clients",
+          "type": "TableBoardView"
+        }
+      ],
+      "workspace_id": "10000012"
+    },
+    {
+      "columns": [
+        {
+          "id": "name",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Name",
+          "type": "name"
+        },
+        {
+          "id": "subitems",
+          "settings": {
+            "allowMultipleItems": true,
+            "boardIds": [
+              10000000054
+            ],
+            "displayType": "BOARD_INLINE",
+            "itemTypeName": "column.subtasks.title"
+          },
+          "target_board_ids": [
+            "10000000054"
+          ],
+          "title": "Tasks",
+          "type": "subtasks"
+        },
+        {
+          "id": "custom_mkrmrgz6",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Activities timeline",
+          "type": "unsupported"
+        },
+        {
+          "id": "deal_stage",
+          "settings": {
+            "labels": [
+              {
+                "color": 108,
+                "hex": "#4eccc6",
+                "id": 0,
+                "index": 3,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Negotiation"
+              },
+              {
+                "color": 1,
+                "hex": "#00c875",
+                "id": 1,
+                "index": 4,
+                "is_deactivated": false,
+                "is_done": true,
+                "label": "Won"
+              },
+              {
+                "color": 2,
+                "hex": "#df2f4a",
+                "id": 2,
+                "index": 5,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Lost"
+              },
+              {
+                "color": 16,
+                "hex": "#66ccff",
+                "id": 3,
+                "index": 2,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Proposal"
+              },
+              {
+                "color": 109,
+                "hex": "#5559df",
+                "id": 4,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "New"
+              },
+              {
+                "color": 5,
+                "hex": "#c4c4c4",
+                "id": 5,
+                "index": 6,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": ""
+              },
+              {
+                "color": 9,
+                "hex": "#ffcb00",
+                "id": 6,
+                "index": 9,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Completed"
+              },
+              {
+                "color": 151,
+                "hex": "#563e3e",
+                "id": 7,
+                "index": 8,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Paused"
+              },
+              {
+                "color": 7,
+                "hex": "#579bfc",
+                "id": 15,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Discovery"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Stage",
+          "type": "status"
+        },
+        {
+          "id": "deal_owner",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Owner",
+          "type": "people"
+        },
+        {
+          "id": "deal_value",
+          "settings": {
+            "unit": {
+              "direction": "left",
+              "symbol": "$"
+            }
+          },
+          "target_board_ids": [],
+          "title": "Deal Value",
+          "type": "numbers"
+        },
+        {
+          "id": "fixed_fee",
+          "settings": {
+            "unit": {
+              "direction": "left",
+              "precision": 2,
+              "symbol": "$"
+            }
+          },
+          "target_board_ids": [],
+          "title": "Fixed Fee",
+          "type": "numbers"
+        },
+        {
+          "id": "mercury_customer_id",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Mercury Customer ID",
+          "type": "text"
+        },
+        {
+          "id": "monthly_retainer",
+          "settings": {
+            "unit": {
+              "direction": "left",
+              "precision": 2,
+              "symbol": "$"
+            }
+          },
+          "target_board_ids": [],
+          "title": "Monthly Retainer",
+          "type": "numbers"
+        },
+        {
+          "id": "hourly_rate",
+          "settings": {
+            "unit": {
+              "direction": "left",
+              "precision": 2,
+              "symbol": "$"
+            }
+          },
+          "target_board_ids": [],
+          "title": "Hourly Rate",
+          "type": "numbers"
+        },
+        {
+          "id": "estimated_hours",
+          "settings": {
+            "unit": {
+              "custom_unit": "hrs",
+              "direction": "right",
+              "precision": 1,
+              "symbol": "custom"
+            }
+          },
+          "target_board_ids": [],
+          "title": "Estimated Hours",
+          "type": "numbers"
+        },
+        {
+          "id": "calc_deal_value",
+          "settings": {
+            "formula": "SUM({fixed_fee},MULTIPLY({monthly_retainer},3),MULTIPLY({hourly_rate},{estimated_hours}))"
+          },
+          "target_board_ids": [],
+          "title": "Calculated Deal Value",
+          "type": "formula"
+        },
+        {
+          "id": "deal_contact",
+          "settings": {
+            "boardId": 10000000002,
+            "boardIds": [
+              10000000002
+            ],
+            "dataSourceLayoutConfigs": {
+              "10000000002": {
+                "description": {
+                  "refId": "contact_account"
+                },
+                "name": {
+                  "refId": "name"
+                }
+              }
+            },
+            "displayType": "CUSTOM",
+            "staticImage": "contacts"
+          },
+          "target_board_ids": [
+            "10000000002"
+          ],
+          "title": "Contacts",
+          "type": "board_relation"
+        },
+        {
+          "id": "deal_account",
+          "settings": {
+            "displayed_column": {},
+            "displayed_linked_columns": [
+              {
+                "board_id": "10000000002",
+                "column_ids": [
+                  "contact_account"
+                ]
+              }
+            ],
+            "relation_column": {
+              "deal_contact": true
+            }
+          },
+          "target_board_ids": [],
+          "title": "Account (from Contacts)",
+          "type": "mirror"
+        },
+        {
+          "id": "deal_expected_close_date",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Expected Close Date",
+          "type": "date"
+        },
+        {
+          "id": "deal_close_probability",
+          "settings": {
+            "hide_footer": true,
+            "unit": {
+              "custom_unit": "",
+              "direction": "right",
+              "symbol": "%"
+            }
+          },
+          "target_board_ids": [],
+          "title": "Close Probability",
+          "type": "numbers"
+        },
+        {
+          "id": "deal_forecast_value",
+          "settings": {
+            "formula": "{deal_value}*{deal_close_probability}",
+            "hide_footer": true
+          },
+          "target_board_ids": [],
+          "title": "Forecast Value",
+          "type": "formula"
+        },
+        {
+          "id": "date__1",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Last interaction",
+          "type": "date"
+        },
+        {
+          "id": "custom_mknwwj0z",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Quotes & Invoices",
+          "type": "unsupported"
+        },
+        {
+          "id": "color_mm1hjwv8",
+          "settings": {
+            "labels": [
+              {
+                "color": 108,
+                "hex": "#4eccc6",
+                "id": 0,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Best case"
+              },
+              {
+                "color": 4,
+                "hex": "#9d50dd",
+                "id": 1,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": true,
+                "label": "Pipeline"
+              },
+              {
+                "color": 7,
+                "hex": "#579bfc",
+                "id": 2,
+                "index": 2,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Commit"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Forecast categories",
+          "type": "status"
+        },
+        {
+          "id": "color_mm5reec3",
+          "settings": {
+            "labels": [
+              {
+                "color": 1,
+                "hex": "#00c875",
+                "id": 1,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Referral"
+              },
+              {
+                "color": 3,
+                "hex": "#007eb5",
+                "id": 3,
+                "index": 2,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "LinkedIn"
+              },
+              {
+                "color": 4,
+                "hex": "#9d50dd",
+                "id": 4,
+                "index": 3,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Inbound"
+              },
+              {
+                "color": 6,
+                "hex": "#037f4c",
+                "id": 6,
+                "index": 5,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Expansion"
+              },
+              {
+                "color": 7,
+                "hex": "#579bfc",
+                "id": 7,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Network"
+              },
+              {
+                "color": 17,
+                "hex": "#757575",
+                "id": 17,
+                "index": 6,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Other"
+              },
+              {
+                "color": 19,
+                "hex": "#ff6d3b",
+                "id": 19,
+                "index": 4,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Outbound"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Source",
+          "type": "status"
+        },
+        {
+          "id": "color_mm5rt4mb",
+          "settings": {
+            "labels": [
+              {
+                "color": 1,
+                "hex": "#00c875",
+                "id": 1,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Monthly"
+              },
+              {
+                "color": 4,
+                "hex": "#9d50dd",
+                "id": 4,
+                "index": 3,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Mixed"
+              },
+              {
+                "color": 7,
+                "hex": "#579bfc",
+                "id": 7,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Hourly"
+              },
+              {
+                "color": 17,
+                "hex": "#757575",
+                "id": 17,
+                "index": 4,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Unknown"
+              },
+              {
+                "color": 19,
+                "hex": "#ff6d3b",
+                "id": 19,
+                "index": 2,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Fixed fee"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Billing Model",
+          "type": "status"
+        },
+        {
+          "id": "numeric_mm5rdht9",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Collected Revenue",
+          "type": "numbers"
+        },
+        {
+          "id": "timerange_mm5r73by",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Engagement Dates",
+          "type": "timeline"
+        },
+        {
+          "id": "dropdown_mm5r2kpk",
+          "settings": {
+            "labels": [
+              {
+                "id": 1,
+                "is_deactivated": false,
+                "label": "Project"
+              },
+              {
+                "id": 2,
+                "is_deactivated": false,
+                "label": "retainer"
+              },
+              {
+                "id": 3,
+                "is_deactivated": false,
+                "label": "GTM Strategy & Execution"
+              },
+              {
+                "id": 4,
+                "is_deactivated": false,
+                "label": "RevOps / HubSpot Implementation"
+              },
+              {
+                "id": 5,
+                "is_deactivated": false,
+                "label": "Data Enrichment & Account List Building"
+              },
+              {
+                "id": 6,
+                "is_deactivated": false,
+                "label": "GTM advisory, sales process design, CRM setup, outbound campaign management, meeting prep, and sales coaching"
+              },
+              {
+                "id": 7,
+                "is_deactivated": false,
+                "label": "GTM Advisory & RevOps"
+              },
+              {
+                "id": 8,
+                "is_deactivated": false,
+                "label": "Account Scoring & Signal Enrichment (Clay\u2011based outbound intelligence build)"
+              },
+              {
+                "id": 9,
+                "is_deactivated": false,
+                "label": "Data Enrichment / Prospect List Cleaning"
+              },
+              {
+                "id": 10,
+                "is_deactivated": false,
+                "label": "Implementation services: account list building, channel setup, and CRM surgery/setup"
+              },
+              {
+                "id": 11,
+                "is_deactivated": false,
+                "label": "RevOps Platform"
+              },
+              {
+                "id": 12,
+                "is_deactivated": false,
+                "label": "RevOps infrastructure / CRM setup + GTM growth plays"
+              },
+              {
+                "id": 13,
+                "is_deactivated": false,
+                "label": "Property sourcing & enrichment"
+              },
+              {
+                "id": 14,
+                "is_deactivated": false,
+                "label": "Lead scoring"
+              },
+              {
+                "id": 15,
+                "is_deactivated": false,
+                "label": "Outbound channel setup (direct mail, email, LinkedIn, cold calling)"
+              },
+              {
+                "id": 16,
+                "is_deactivated": false,
+                "label": "Measurement framework"
+              },
+              {
+                "id": 17,
+                "is_deactivated": false,
+                "label": "RevOps"
+              },
+              {
+                "id": 18,
+                "is_deactivated": false,
+                "label": "Salesforce implementation"
+              },
+              {
+                "id": 19,
+                "is_deactivated": false,
+                "label": "Signal/Data infrastructure"
+              },
+              {
+                "id": 20,
+                "is_deactivated": false,
+                "label": "Deal origination"
+              },
+              {
+                "id": 21,
+                "is_deactivated": false,
+                "label": "Data capture / research calling project"
+              },
+              {
+                "id": 22,
+                "is_deactivated": false,
+                "label": "AI advisory and development"
+              },
+              {
+                "id": 23,
+                "is_deactivated": false,
+                "label": "Team enablement"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Service Type",
+          "type": "dropdown"
+        },
+        {
+          "id": "long_text_mm5rwkhs",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Identified Pain",
+          "type": "long_text"
+        },
+        {
+          "id": "long_text_mm5r4ed",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Metrics",
+          "type": "long_text"
+        },
+        {
+          "id": "long_text_mm5rqcks",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Economic Buyer",
+          "type": "long_text"
+        },
+        {
+          "id": "long_text_mm5rg0b3",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Decision Criteria",
+          "type": "long_text"
+        },
+        {
+          "id": "long_text_mm5r4ztt",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Decision Process",
+          "type": "long_text"
+        },
+        {
+          "id": "long_text_mm5rw5vw",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Qualification Gaps",
+          "type": "long_text"
+        },
+        {
+          "id": "text_mm5rbwpq",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Competition",
+          "type": "text"
+        },
+        {
+          "id": "board_relation_mm5rjzyc",
+          "settings": {
+            "allowCreateReflectionColumn": true,
+            "allowMultipleItems": false,
+            "boardIds": [
+              10000000002
+            ]
+          },
+          "target_board_ids": [
+            "10000000002"
+          ],
+          "title": "Champion",
+          "type": "board_relation"
+        },
+        {
+          "id": "board_relation_mm5rfvnm",
+          "settings": {
+            "allowCreateReflectionColumn": true,
+            "allowMultipleItems": true,
+            "boardIds": [
+              10000000006
+            ]
+          },
+          "target_board_ids": [
+            "10000000006"
+          ],
+          "title": "Client Project",
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text_mm5rphwf",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Notes",
+          "type": "long_text"
+        },
+        {
+          "id": "board_relation_mm5rhpdn",
+          "settings": {
+            "allowCreateReflectionColumn": true,
+            "boardIds": [
+              10000000004
+            ]
+          },
+          "target_board_ids": [
+            "10000000004"
+          ],
+          "title": "link to Meetings",
+          "type": "board_relation"
+        },
+        {
+          "id": "color_mm5wwnpx",
+          "settings": {
+            "labels": [
+              {
+                "color": 0,
+                "hex": "#fdab3d",
+                "id": 0,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Working on it"
+              },
+              {
+                "color": 1,
+                "hex": "#00c875",
+                "id": 1,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Done"
+              },
+              {
+                "color": 2,
+                "hex": "#df2f4a",
+                "id": 2,
+                "index": 2,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Stuck"
+              },
+              {
+                "color": 6,
+                "hex": "#037f4c",
+                "id": 6,
+                "index": 4,
+                "is_deactivated": false,
+                "is_done": true,
+                "label": "Verified"
+              },
+              {
+                "color": 7,
+                "hex": "#579bfc",
+                "id": 7,
+                "index": 3,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Needs Review"
+              },
+              {
+                "color": 11,
+                "hex": "#bb3354",
+                "id": 11,
+                "index": 5,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Ambiguous"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Review Status",
+          "type": "status"
+        },
+        {
+          "id": "long_text_mm5wcgq5",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Proposed Changes",
+          "type": "long_text"
+        },
+        {
+          "id": "direct_doc_mm5wbmfp",
+          "settings": {
+            "auto_map_on_move": true,
+            "doc_type": 1
+          },
+          "target_board_ids": [],
+          "title": "monday Doc v2",
+          "type": "direct_doc"
+        },
+        {
+          "id": "board_relation_mm5wzb2m",
+          "settings": {
+            "allowCreateReflectionColumn": true,
+            "allowMultipleItems": false,
+            "boardIds": [
+              10000000001
+            ]
+          },
+          "target_board_ids": [
+            "10000000001"
+          ],
+          "title": "Account",
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text_mm6ccfw7",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Agent Field Provenance",
+          "type": "long_text"
+        },
+        {
+          "id": "text_mm6c46m8",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Last Interaction Source Event",
+          "type": "text"
+        },
+        {
+          "id": "text_mm6cjdpb",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Last Inbound Email At",
+          "type": "text"
+        },
+        {
+          "id": "text_mm6ctkzb",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Last Inbound Source Event",
+          "type": "text"
+        },
+        {
+          "id": "text_mm6cremz",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Nudge Slack TS",
+          "type": "text"
+        },
+        {
+          "id": "link_mm6cpzda",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Nudge Slack Link",
+          "type": "link"
+        },
+        {
+          "id": "text_mm6cfcpq",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Nudge Condition Key",
+          "type": "text"
+        },
+        {
+          "id": "formula_mm6gcsf2",
+          "settings": {
+            "formula": "IF(OR({deal_stage}=\"New\",{deal_stage}=\"Discovery\",{deal_stage}=\"Proposal\",{deal_stage}=\"Negotiation\"),{deal_value},0)"
+          },
+          "target_board_ids": [],
+          "title": "Commander | Open Pipeline",
+          "type": "formula"
+        },
+        {
+          "id": "formula_mm6g1j19",
+          "settings": {
+            "formula": "IF(OR({deal_stage}=\"New\",{deal_stage}=\"Discovery\",{deal_stage}=\"Proposal\",{deal_stage}=\"Negotiation\"),{deal_value}/3,0)"
+          },
+          "target_board_ids": [],
+          "title": "Commander | Estimated Close (33%)",
+          "type": "formula"
+        },
+        {
+          "id": "long_text_mm6gsp14",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Contracted Scope",
+          "type": "long_text"
+        },
+        {
+          "id": "long_text_mm6gjzw5",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Renewal / Termination Terms",
+          "type": "long_text"
+        },
+        {
+          "id": "long_text_mm6gwn02",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Contract Signers",
+          "type": "long_text"
+        },
+        {
+          "id": "date_mm6gdfds",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Contract Signed At",
+          "type": "date"
+        },
+        {
+          "id": "text_mm6gn7vf",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "DocuSign Envelope ID",
+          "type": "text"
+        },
+        {
+          "id": "text_mm6ga0sz",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Client Onboarding Slack TS",
+          "type": "text"
+        },
+        {
+          "id": "link_mm6gekh5",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Client Onboarding Slack Link",
+          "type": "link"
+        },
+        {
+          "id": "text_mm6g1jnr",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Client Onboarding Slack Last TS",
+          "type": "text"
+        },
+        {
+          "id": "text_mm6gp62m",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Client Collaboration Connected At",
+          "type": "text"
+        },
+        {
+          "id": "text_mm6gznje",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Billing Cadence",
+          "type": "text"
+        },
+        {
+          "id": "long_text_mm6gdp4c",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Payment Terms",
+          "type": "long_text"
+        },
+        {
+          "id": "date_mm6g5mc2",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Contract Effective Date",
+          "type": "date"
+        },
+        {
+          "id": "link_mm6gtrr0",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Signed Contract Drive Link",
+          "type": "link"
+        },
+        {
+          "id": "pulse_log_mm6kz78v",
+          "settings": {
+            "mode": "dateOnly"
+          },
+          "target_board_ids": [],
+          "title": "Created Date",
+          "type": "creation_log"
+        }
+      ],
+      "groups": [
+        {
+          "id": "topics",
+          "title": "Active Deals"
+        },
+        {
+          "id": "closed",
+          "title": "Engagements"
+        },
+        {
+          "id": "group_mm5r7788",
+          "title": "Closed Lost"
+        }
+      ],
+      "id": "10000000003",
+      "items_count": 173,
+      "key": "deal",
+      "kind": "public",
+      "name": "Deals",
+      "permissions": "everyone",
+      "state": "active",
+      "views": [
+        {
+          "id": "100000055",
+          "name": "Sales report",
+          "type": null
+        },
+        {
+          "id": "100000056",
+          "name": "Pipeline",
+          "type": null
+        },
+        {
+          "id": "100000057",
+          "name": "Needs Review",
+          "type": "TableBoardView"
+        },
+        {
+          "id": "100000058",
+          "name": "Build Vibe view",
+          "type": "FeatureBoardView"
+        },
+        {
+          "id": "100000059",
+          "name": "Commander | Active Deals by Value",
+          "type": "TableBoardView"
+        }
+      ],
+      "workspace_id": "10000012"
+    },
+    {
+      "columns": [
+        {
+          "id": "name",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Name",
+          "type": "name"
+        },
+        {
+          "id": "company_domain",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Domain",
+          "type": "link"
+        },
+        {
+          "id": "account_contact",
+          "settings": {
+            "allowMultipleBoards": true,
+            "boardId": 10000000002,
+            "boardIds": [
+              10000000002
+            ],
+            "dataSourceLayoutConfigs": {
+              "10000000002": {
+                "description": {
+                  "refId": "contact_account"
+                },
+                "name": {
+                  "refId": "name"
+                }
+              }
+            },
+            "displayType": "CUSTOM",
+            "staticImage": "contacts"
+          },
+          "target_board_ids": [
+            "10000000002"
+          ],
+          "title": "Contacts",
+          "type": "board_relation"
+        },
+        {
+          "id": "account_deal",
+          "settings": {
+            "displayed_column": {},
+            "displayed_linked_columns": [
+              {
+                "board_id": "10000000002",
+                "column_ids": [
+                  "contact_deal"
+                ]
+              }
+            ],
+            "relation_column": {
+              "account_contact": true
+            }
+          },
+          "target_board_ids": [],
+          "title": "Deals (from Contacts)",
+          "type": "mirror"
+        },
+        {
+          "id": "company_profile",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Company profile",
+          "type": "link"
+        },
+        {
+          "id": "status",
+          "settings": {
+            "labels": [
+              {
+                "color": 155,
+                "hex": "#e484bd",
+                "id": 0,
+                "index": 4,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Completed - Past Client"
+              },
+              {
+                "color": 4,
+                "hex": "#9d50dd",
+                "id": 1,
+                "index": 5,
+                "is_deactivated": false,
+                "is_done": true,
+                "label": ""
+              },
+              {
+                "color": 107,
+                "hex": "#225091",
+                "id": 2,
+                "index": 2,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Vendor"
+              },
+              {
+                "color": 1,
+                "hex": "#00c875",
+                "id": 3,
+                "index": 6,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "AI Investment"
+              },
+              {
+                "color": 5,
+                "hex": "#c4c4c4",
+                "id": 5,
+                "index": 3,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Prospect"
+              },
+              {
+                "color": 0,
+                "hex": "#fdab3d",
+                "id": 13,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Partner"
+              },
+              {
+                "color": 160,
+                "hex": "#175a63",
+                "id": 19,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Active Client"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Type",
+          "type": "status"
+        },
+        {
+          "id": "text_mm5r760h",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Domain (match key)",
+          "type": "text"
+        },
+        {
+          "id": "color_mm5r9qvf",
+          "settings": {
+            "labels": [
+              {
+                "color": 1,
+                "hex": "#00c875",
+                "id": 1,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Referral"
+              },
+              {
+                "color": 3,
+                "hex": "#007eb5",
+                "id": 3,
+                "index": 2,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "LinkedIn"
+              },
+              {
+                "color": 4,
+                "hex": "#9d50dd",
+                "id": 4,
+                "index": 3,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Inbound"
+              },
+              {
+                "color": 6,
+                "hex": "#037f4c",
+                "id": 6,
+                "index": 5,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Expansion"
+              },
+              {
+                "color": 7,
+                "hex": "#579bfc",
+                "id": 7,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Network"
+              },
+              {
+                "color": 17,
+                "hex": "#757575",
+                "id": 17,
+                "index": 6,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Other"
+              },
+              {
+                "color": 19,
+                "hex": "#ff6d3b",
+                "id": 19,
+                "index": 4,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Outbound"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Source",
+          "type": "status"
+        },
+        {
+          "id": "board_relation_mm5r85hn",
+          "settings": {
+            "allowCreateReflectionColumn": true,
+            "allowMultipleItems": true,
+            "boardIds": [
+              10000000002
+            ]
+          },
+          "target_board_ids": [
+            "10000000002"
+          ],
+          "title": "Source \u2014 Contact",
+          "type": "board_relation"
+        },
+        {
+          "id": "dropdown_mm5ryn14",
+          "settings": {
+            "labels": [
+              {
+                "id": 1,
+                "is_deactivated": false,
+                "label": "Outbound Acceleration"
+              },
+              {
+                "id": 2,
+                "is_deactivated": false,
+                "label": "Lead Sourcing Tool"
+              },
+              {
+                "id": 3,
+                "is_deactivated": false,
+                "label": "GTM Implementation"
+              },
+              {
+                "id": 4,
+                "is_deactivated": false,
+                "label": "GTM System Buildout"
+              },
+              {
+                "id": 5,
+                "is_deactivated": false,
+                "label": "GTM Retainer"
+              },
+              {
+                "id": 6,
+                "is_deactivated": false,
+                "label": "Rev Ops Support"
+              },
+              {
+                "id": 7,
+                "is_deactivated": false,
+                "label": "List Enrichment"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Engagement Type",
+          "type": "dropdown"
+        },
+        {
+          "id": "date_mm5r5gp4",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Next Follow-up",
+          "type": "date"
+        },
+        {
+          "id": "multiple_person_mm5rmcfe",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Relationship Owner",
+          "type": "people"
+        },
+        {
+          "id": "long_text_mm5r6tnx",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Notes",
+          "type": "long_text"
+        },
+        {
+          "id": "board_relation_mm5r79a6",
+          "settings": {
+            "allowCreateReflectionColumn": true,
+            "allowMultipleItems": true,
+            "boardIds": [
+              10000000006
+            ]
+          },
+          "target_board_ids": [
+            "10000000006"
+          ],
+          "title": "Client Projects",
+          "type": "board_relation"
+        },
+        {
+          "id": "color_mm5rmymb",
+          "settings": {
+            "labels": [
+              {
+                "color": 2,
+                "hex": "#df2f4a",
+                "id": 2,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Weekly"
+              },
+              {
+                "color": 7,
+                "hex": "#579bfc",
+                "id": 7,
+                "index": 3,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Quarterly"
+              },
+              {
+                "color": 9,
+                "hex": "#ffcb00",
+                "id": 9,
+                "index": 2,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Monthly"
+              },
+              {
+                "color": 17,
+                "hex": "#757575",
+                "id": 17,
+                "index": 4,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "As needed"
+              },
+              {
+                "color": 19,
+                "hex": "#ff6d3b",
+                "id": 19,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Biweekly"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Follow-up Cadence",
+          "type": "status"
+        },
+        {
+          "id": "link_mm5rr5yg",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Drive Folder",
+          "type": "link"
+        },
+        {
+          "id": "lookup_mm5rzytr",
+          "settings": {
+            "displayed_linked_columns": [
+              {
+                "board_id": "10000000002",
+                "column_ids": [
+                  "contact_account"
+                ]
+              }
+            ],
+            "relation_column": {
+              "board_relation_mm5r85hn": true
+            }
+          },
+          "target_board_ids": [],
+          "title": "Source Contact's Company",
+          "type": "mirror"
+        },
+        {
+          "id": "board_relation_mm5r6tmn",
+          "settings": {
+            "allowCreateReflectionColumn": true,
+            "boardIds": [
+              10000000004
+            ]
+          },
+          "target_board_ids": [
+            "10000000004"
+          ],
+          "title": "link to Meetings",
+          "type": "board_relation"
+        },
+        {
+          "id": "direct_doc_mm5sr0af",
+          "settings": {
+            "auto_map_on_move": true,
+            "doc_type": 1
+          },
+          "target_board_ids": [],
+          "title": "monday Doc v2",
+          "type": "direct_doc"
+        },
+        {
+          "id": "color_mm5v3y03",
+          "settings": {
+            "labels": [
+              {
+                "color": 0,
+                "hex": "#fdab3d",
+                "id": 0,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Working on it"
+              },
+              {
+                "color": 1,
+                "hex": "#00c875",
+                "id": 1,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Done"
+              },
+              {
+                "color": 2,
+                "hex": "#df2f4a",
+                "id": 2,
+                "index": 2,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Stuck"
+              },
+              {
+                "color": 6,
+                "hex": "#037f4c",
+                "id": 6,
+                "index": 4,
+                "is_deactivated": false,
+                "is_done": true,
+                "label": "Verified"
+              },
+              {
+                "color": 7,
+                "hex": "#579bfc",
+                "id": 7,
+                "index": 3,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Needs Review"
+              },
+              {
+                "color": 11,
+                "hex": "#bb3354",
+                "id": 11,
+                "index": 5,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Ambiguous"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Review Status",
+          "type": "status"
+        },
+        {
+          "id": "long_text_mm5vvjnz",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Proposed Changes",
+          "type": "long_text"
+        },
+        {
+          "id": "board_relation_mm5wqpwq",
+          "settings": {
+            "allowCreateReflectionColumn": true,
+            "boardIds": [
+              10000000003
+            ]
+          },
+          "target_board_ids": [
+            "10000000003"
+          ],
+          "title": "Deals",
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text_mm6c4dxs",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Agent Field Provenance",
+          "type": "long_text"
+        },
+        {
+          "id": "text_mm6ghmkp",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Collaboration Platform",
+          "type": "text"
+        },
+        {
+          "id": "link_mm6gdr8e",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Client Collaboration Channel",
+          "type": "link"
+        }
+      ],
+      "groups": [
+        {
+          "id": "topics",
+          "title": "Companies"
+        }
+      ],
+      "id": "10000000001",
+      "items_count": 272,
+      "key": "account",
+      "kind": "public",
+      "name": "Accounts",
+      "permissions": "everyone",
+      "state": "active",
+      "views": [
+        {
+          "id": "100000060",
+          "name": "Main View",
+          "type": "TableBoardView"
+        },
+        {
+          "id": "100000061",
+          "name": "Needs Review",
+          "type": "TableBoardView"
+        }
+      ],
+      "workspace_id": "10000012"
+    },
+    {
+      "columns": [
+        {
+          "id": "name",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Name",
+          "type": "name"
+        },
+        {
+          "id": "subtasks_mkvpdgxr",
+          "settings": {
+            "allowMultipleItems": true,
+            "boardIds": [
+              10000000062
+            ],
+            "displayType": "BOARD_INLINE",
+            "itemTypeName": "column.subtasks.title"
+          },
+          "target_board_ids": [
+            "10000000062"
+          ],
+          "title": "Subitems",
+          "type": "subtasks"
+        },
+        {
+          "id": "contact_email",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Email",
+          "type": "email"
+        },
+        {
+          "id": "custom_mkrm9y8c",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Activities timeline",
+          "type": "unsupported"
+        },
+        {
+          "id": "contact_account",
+          "settings": {
+            "boardId": null,
+            "boardIds": [
+              10000000001
+            ],
+            "dataSourceLayoutConfigs": {
+              "10000000001": {
+                "description": {
+                  "refId": "status"
+                },
+                "name": {
+                  "refId": "name"
+                }
+              }
+            },
+            "displayType": "CUSTOM",
+            "staticImage": "accounts"
+          },
+          "target_board_ids": [
+            "10000000001"
+          ],
+          "title": "Accounts",
+          "type": "board_relation"
+        },
+        {
+          "id": "contact_deal",
+          "settings": {
+            "boardId": null,
+            "boardIds": [
+              10000000003
+            ],
+            "dataSourceLayoutConfigs": {
+              "10000000003": {
+                "description": {
+                  "refId": "deal_account"
+                },
+                "name": {
+                  "refId": "name"
+                }
+              }
+            },
+            "displayType": "CUSTOM",
+            "staticImage": "opportunities"
+          },
+          "target_board_ids": [
+            "10000000003"
+          ],
+          "title": "Deals",
+          "type": "board_relation"
+        },
+        {
+          "id": "mirror2",
+          "settings": {
+            "displayed_column": {},
+            "displayed_linked_columns": [
+              {
+                "board_id": "10000000003",
+                "column_ids": [
+                  "deal_value"
+                ]
+              }
+            ],
+            "relation_column": {
+              "contact_deal": true
+            }
+          },
+          "target_board_ids": [],
+          "title": "Deals value",
+          "type": "mirror"
+        },
+        {
+          "id": "contact_phone",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Phone",
+          "type": "phone"
+        },
+        {
+          "id": "status",
+          "settings": {
+            "labels": [
+              {
+                "color": 7,
+                "hex": "#579bfc",
+                "id": 0,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Lead"
+              },
+              {
+                "color": 16,
+                "hex": "#66ccff",
+                "id": 1,
+                "index": 2,
+                "is_deactivated": false,
+                "is_done": true,
+                "label": "Customer"
+              },
+              {
+                "color": 107,
+                "hex": "#225091",
+                "id": 2,
+                "index": 4,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Vendor"
+              },
+              {
+                "color": 5,
+                "hex": "#c4c4c4",
+                "id": 5,
+                "index": 5,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": ""
+              },
+              {
+                "color": 6,
+                "hex": "#037f4c",
+                "id": 6,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Qualified Lead"
+              },
+              {
+                "color": 0,
+                "hex": "#fdab3d",
+                "id": 13,
+                "index": 3,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Partner"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Type",
+          "type": "status"
+        },
+        {
+          "id": "long_text4",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Comments",
+          "type": "long_text"
+        },
+        {
+          "id": "board_relation_mm5rb1tk",
+          "settings": {
+            "allowCreateReflectionColumn": true,
+            "boardIds": [
+              10000000001
+            ]
+          },
+          "target_board_ids": [
+            "10000000001"
+          ],
+          "title": "link to Accounts",
+          "type": "board_relation"
+        },
+        {
+          "id": "link_mm5r7v7e",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "LinkedIn",
+          "type": "link"
+        },
+        {
+          "id": "text_mm5rz9gp",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Role / Title",
+          "type": "text"
+        },
+        {
+          "id": "color_mm5rre7q",
+          "settings": {
+            "labels": [
+              {
+                "color": 1,
+                "hex": "#00c875",
+                "id": 1,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Client contact"
+              },
+              {
+                "color": 4,
+                "hex": "#9d50dd",
+                "id": 4,
+                "index": 3,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Contractor"
+              },
+              {
+                "color": 7,
+                "hex": "#579bfc",
+                "id": 7,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Prospect"
+              },
+              {
+                "color": 17,
+                "hex": "#757575",
+                "id": 17,
+                "index": 4,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Other"
+              },
+              {
+                "color": 19,
+                "hex": "#ff6d3b",
+                "id": 19,
+                "index": 2,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Referral partner"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Relationship Type",
+          "type": "status"
+        },
+        {
+          "id": "color_mm5rxx98",
+          "settings": {
+            "labels": [
+              {
+                "color": 1,
+                "hex": "#00c875",
+                "id": 1,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Referral"
+              },
+              {
+                "color": 3,
+                "hex": "#007eb5",
+                "id": 3,
+                "index": 2,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "LinkedIn"
+              },
+              {
+                "color": 4,
+                "hex": "#9d50dd",
+                "id": 4,
+                "index": 4,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Inbound"
+              },
+              {
+                "color": 7,
+                "hex": "#579bfc",
+                "id": 7,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Network"
+              },
+              {
+                "color": 17,
+                "hex": "#757575",
+                "id": 17,
+                "index": 5,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Other"
+              },
+              {
+                "color": 19,
+                "hex": "#ff6d3b",
+                "id": 19,
+                "index": 3,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Partner"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Source",
+          "type": "status"
+        },
+        {
+          "id": "website_form",
+          "settings": {
+            "labels": [
+              {
+                "color": 0,
+                "hex": "#fdab3d",
+                "id": 0,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Homepage email"
+              },
+              {
+                "color": 1,
+                "hex": "#00c875",
+                "id": 1,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Contact form"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Website Form",
+          "type": "status"
+        },
+        {
+          "id": "utm_source",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "UTM Source",
+          "type": "text"
+        },
+        {
+          "id": "utm_medium",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "UTM Medium",
+          "type": "text"
+        },
+        {
+          "id": "utm_campaign",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "UTM Campaign",
+          "type": "text"
+        },
+        {
+          "id": "utm_content",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "UTM Content",
+          "type": "text"
+        },
+        {
+          "id": "color_mm5rwzda",
+          "settings": {
+            "labels": [
+              {
+                "color": 2,
+                "hex": "#df2f4a",
+                "id": 2,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Weekly"
+              },
+              {
+                "color": 7,
+                "hex": "#579bfc",
+                "id": 7,
+                "index": 3,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Quarterly"
+              },
+              {
+                "color": 9,
+                "hex": "#ffcb00",
+                "id": 9,
+                "index": 2,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Monthly"
+              },
+              {
+                "color": 17,
+                "hex": "#757575",
+                "id": 17,
+                "index": 4,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "As needed"
+              },
+              {
+                "color": 19,
+                "hex": "#ff6d3b",
+                "id": 19,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Biweekly"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Follow-up Cadence",
+          "type": "status"
+        },
+        {
+          "id": "date_mm5rv03f",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Next Follow-up",
+          "type": "date"
+        },
+        {
+          "id": "date_mm5rjnav",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Last Interaction",
+          "type": "date"
+        },
+        {
+          "id": "long_text_mm5r6r8y",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Notes",
+          "type": "long_text"
+        },
+        {
+          "id": "board_relation_mm5r9zfg",
+          "settings": {
+            "allowCreateReflectionColumn": true,
+            "boardIds": [
+              10000000003
+            ]
+          },
+          "target_board_ids": [
+            "10000000003"
+          ],
+          "title": "link to Deals",
+          "type": "board_relation"
+        },
+        {
+          "id": "board_relation_mm5r99fs",
+          "settings": {
+            "allowCreateReflectionColumn": true,
+            "boardIds": [
+              10000000004
+            ]
+          },
+          "target_board_ids": [
+            "10000000004"
+          ],
+          "title": "link to Meetings",
+          "type": "board_relation"
+        },
+        {
+          "id": "color_mm5ww59f",
+          "settings": {
+            "labels": [
+              {
+                "color": 0,
+                "hex": "#fdab3d",
+                "id": 0,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Working on it"
+              },
+              {
+                "color": 1,
+                "hex": "#00c875",
+                "id": 1,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Done"
+              },
+              {
+                "color": 2,
+                "hex": "#df2f4a",
+                "id": 2,
+                "index": 2,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Stuck"
+              },
+              {
+                "color": 6,
+                "hex": "#037f4c",
+                "id": 6,
+                "index": 4,
+                "is_deactivated": false,
+                "is_done": true,
+                "label": "Verified"
+              },
+              {
+                "color": 7,
+                "hex": "#579bfc",
+                "id": 7,
+                "index": 3,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Needs Review"
+              },
+              {
+                "color": 11,
+                "hex": "#bb3354",
+                "id": 11,
+                "index": 5,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Ambiguous"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Review Status",
+          "type": "status"
+        },
+        {
+          "id": "long_text_mm5wwd51",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Proposed Changes",
+          "type": "long_text"
+        },
+        {
+          "id": "long_text_mm6cqed2",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Agent Field Provenance",
+          "type": "long_text"
+        }
+      ],
+      "groups": [
+        {
+          "id": "topics",
+          "title": "Active Contacts"
+        },
+        {
+          "id": "new_group95562",
+          "title": "Inactive Contacts"
+        }
+      ],
+      "id": "10000000002",
+      "items_count": 327,
+      "key": "contact",
+      "kind": "public",
+      "name": "Contacts",
+      "permissions": "everyone",
+      "state": "active",
+      "views": [
+        {
+          "id": "100000063",
+          "name": "Needs Review",
+          "type": "TableBoardView"
+        },
+        {
+          "id": "100000064",
+          "name": "Build Vibe view",
+          "type": "FeatureBoardView"
+        }
+      ],
+      "workspace_id": "10000012"
+    },
+    {
+      "columns": [
+        {
+          "id": "name",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Name",
+          "type": "name"
+        },
+        {
+          "id": "activity_owner",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Owner",
+          "type": "people"
+        },
+        {
+          "id": "activity_status",
+          "settings": {
+            "labels": [
+              {
+                "color": 3,
+                "hex": "#007eb5",
+                "id": 3,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Open"
+              },
+              {
+                "color": 15,
+                "hex": "#9cd326",
+                "id": 4,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": true,
+                "label": "Done"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Status",
+          "type": "status"
+        },
+        {
+          "id": "activity_type",
+          "settings": {
+            "labels": [
+              {
+                "color": 0,
+                "hex": "#fdab3d",
+                "id": 0,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Call summary"
+              },
+              {
+                "color": 1,
+                "hex": "#00c875",
+                "id": 1,
+                "is_deactivated": false,
+                "is_done": true,
+                "label": "Task"
+              },
+              {
+                "color": 2,
+                "hex": "#df2f4a",
+                "id": 2,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "[TEST] Business Listening Verification Email"
+              },
+              {
+                "color": 107,
+                "hex": "#225091",
+                "id": 107,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Meeting"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Activity Type",
+          "type": "status"
+        },
+        {
+          "id": "activity_start_time",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Start time",
+          "type": "date"
+        },
+        {
+          "id": "activity_end_time",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "End time",
+          "type": "date"
+        },
+        {
+          "id": "activity_item",
+          "settings": {
+            "allowMultipleBoards": true,
+            "boardId": 10000000002,
+            "boardIds": [
+              10000000002,
+              10000000003,
+              10000000065,
+              10000000001,
+              10000000005
+            ]
+          },
+          "target_board_ids": [
+            "10000000002",
+            "10000000003",
+            "10000000065",
+            "10000000001",
+            "10000000005"
+          ],
+          "title": "Related item",
+          "type": "board_relation"
+        },
+        {
+          "id": "color_mm5rmpa",
+          "settings": {
+            "labels": [
+              {
+                "color": 1,
+                "hex": "#00c875",
+                "id": 1,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Do it"
+              },
+              {
+                "color": 19,
+                "hex": "#ff6d3b",
+                "id": 19,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Chase"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Task Type",
+          "type": "status"
+        },
+        {
+          "id": "color_mm5reakb",
+          "settings": {
+            "labels": [
+              {
+                "color": 1,
+                "hex": "#00c875",
+                "id": 1,
+                "index": 2,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Verified"
+              },
+              {
+                "color": 2,
+                "hex": "#df2f4a",
+                "id": 2,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Ambiguous"
+              },
+              {
+                "color": 19,
+                "hex": "#ff6d3b",
+                "id": 19,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Needs Review"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Review Status",
+          "type": "status"
+        },
+        {
+          "id": "color_mm5r785z",
+          "settings": {
+            "labels": [
+              {
+                "color": 2,
+                "hex": "#df2f4a",
+                "id": 2,
+                "index": 0,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "High"
+              },
+              {
+                "color": 17,
+                "hex": "#757575",
+                "id": 17,
+                "index": 2,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Low"
+              },
+              {
+                "color": 19,
+                "hex": "#ff6d3b",
+                "id": 19,
+                "index": 1,
+                "is_deactivated": false,
+                "is_done": false,
+                "label": "Medium"
+              }
+            ]
+          },
+          "target_board_ids": [],
+          "title": "Priority",
+          "type": "status"
+        },
+        {
+          "id": "date_mm5rfmss",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Due Date",
+          "type": "date"
+        },
+        {
+          "id": "board_relation_mm5rdsgg",
+          "settings": {
+            "allowCreateReflectionColumn": true,
+            "allowMultipleItems": false,
+            "boardIds": [
+              10000000004
+            ]
+          },
+          "target_board_ids": [
+            "10000000004"
+          ],
+          "title": "Source Meeting",
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text_mm5scyqm",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Notes",
+          "type": "long_text"
+        },
+        {
+          "id": "link_mm5sa16w",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Slack Link",
+          "type": "link"
+        },
+        {
+          "id": "text_mm5wp1fs",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Slack Notification TS",
+          "type": "text"
+        },
+        {
+          "id": "text_mm5warc4",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Slack Last TS",
+          "type": "text"
+        },
+        {
+          "id": "link_mm6574j8",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Source Notes Link",
+          "type": "link"
+        },
+        {
+          "id": "text_mm6cqsda",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Source Event Key",
+          "type": "text"
+        },
+        {
+          "id": "text_mm6cjn6j",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Completed At",
+          "type": "text"
+        },
+        {
+          "id": "text_mm6c6phf",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Completion Source Type",
+          "type": "text"
+        },
+        {
+          "id": "text_mm6ck4bc",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Completion Source Event Key",
+          "type": "text"
+        },
+        {
+          "id": "text_mm6cz17t",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Completion Source Timeline ID",
+          "type": "text"
+        },
+        {
+          "id": "long_text_mm6c34ae",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Completion Evidence",
+          "type": "long_text"
+        },
+        {
+          "id": "numeric_mm6c9nd2",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Completion Confidence",
+          "type": "numbers"
+        },
+        {
+          "id": "boolean_mm6c6jcs",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Awaiting Client Reply",
+          "type": "checkbox"
+        },
+        {
+          "id": "text_mm6cw3g9",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Follow-up Nudge Slack TS",
+          "type": "text"
+        },
+        {
+          "id": "link_mm6c2nke",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Follow-up Nudge Slack Link",
+          "type": "link"
+        },
+        {
+          "id": "text_mm6cd62q",
+          "settings": {},
+          "target_board_ids": [],
+          "title": "Follow-up Nudge Condition Key",
+          "type": "text"
+        }
+      ],
+      "groups": [
+        {
+          "id": "topics",
+          "title": "Account Activities"
+        }
+      ],
+      "id": "10000000005",
+      "items_count": 118,
+      "key": "activity",
+      "kind": "public",
+      "name": "Activities",
+      "permissions": "everyone",
+      "state": "active",
+      "views": [
+        {
+          "id": "100000066",
+          "name": "Table",
+          "type": "TableBoardView"
+        }
+      ],
+      "workspace_id": "10000012"
+    }
+  ],
+  "captured_at": "2026-08-31T15:17:18.886164+00:00",
+  "status": "ready"
+}

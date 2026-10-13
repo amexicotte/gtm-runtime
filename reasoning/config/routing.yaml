@@ -1,0 +1,5 @@
+durability_test: "Would this fact still be true if THIS deal died? Yes -> put it on the Contact (person) or Account (company). No -> put it on the Deal."
+opportunity_company: prospect     # deals ALWAYS tie to the prospect, never a partner on the call
+meeting_links: both               # meeting links to the prospect AND any partner company present
+stage_discipline: "A clear call/manual-note signal may set New, Discovery, Proposal, or Negotiation. Paused is human-controlled and cannot be entered or exited automatically. Won is executed-contract-gated; Lost requires an explicit, unambiguous not-moving-forward statement. Completed is an Account lifecycle, not a Deal stage."
+write_mode: overwrite             # extracted values become final CRM state

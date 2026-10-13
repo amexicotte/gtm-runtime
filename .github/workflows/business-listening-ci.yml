@@ -1,0 +1,30 @@
+name: business-listening-deterministic-validation
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: business-listening-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: engine/requirements.txt
+      - name: Install deterministic test dependencies
+        run: python -m pip install -r engine/requirements.txt
+      - name: Run tests, compilation, field policy, and prompt assembly
+        run: ./scripts/validate_business_listening_release.sh

@@ -1,0 +1,14 @@
+# Data that grows over time. Domain lists are used by the matcher; the named
+# lists are summarized into the prompt so the model recognizes (not recreates) them.
+# Keep matcher drop-lists here as the single source of truth. The second Harbor
+# spelling occurs in historical Fireflies rows and must not create an Account.
+internal_domains:  [harboradvisors.example, harboradvisers.example]
+notetaker_domains: [fireflies.ai, otter.ai]
+freemail_domains:  [gmail.com, googlemail.com, yahoo.com, ymail.com, hotmail.com, outlook.com, live.com, msn.com, icloud.com, me.com, mac.com, aol.com, proton.me, protonmail.com, gmx.com, gmx.net]
+internal_adjacent_domains: [ridgeline.example]
+sponsors:  [Granite Peak Capital, Alder Station, Oakline Capital, Northstar Horizon, Bay Hill, Stonebridge]
+investors: [Accel, Accel-KKR, Salesforce Ventures, First Round, Crosslink, Y Combinator]
+partners:
+  - name: monday.com
+    contact: Morgan Lee
+    note: implementation partner; Harbor sends them deal flow

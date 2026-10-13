@@ -1,0 +1,62 @@
+name: business-context-weekly-refresh
+
+on:
+  workflow_dispatch:
+    inputs:
+      audit_private_context:
+        description: "Run bounded read-only Notion and Drive production audit"
+        type: boolean
+        default: false
+  schedule:
+    - cron: "17 11 * * 1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: business-context-weekly
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: engine/requirements.txt
+      - run: python -m pip install -r engine/requirements.txt
+      - name: Refresh public Harbor positioning context
+        env:
+          PYTHONPATH: engine
+        run: |
+          mkdir -p .artifacts/business-context
+          python -m runtime.context_main website-refresh \
+            --output .artifacts/business-context/website-context.json
+      - name: Audit workspace-wide read-only context
+        if: ${{ vars.BUSINESS_CONTEXT_ENABLED == 'true' || (github.event_name == 'workflow_dispatch' && inputs.audit_private_context) }}
+        env:
+          PYTHONPATH: engine
+          NOTION_API_TOKEN: ${{ secrets.NOTION_API_TOKEN }}
+          NOTION_VERSION: ${{ vars.NOTION_VERSION }}
+          GOOGLE_DRIVE_RCLONE_REMOTE: ${{ vars.GOOGLE_DRIVE_RCLONE_REMOTE }}
+          RCLONE_CONFIG_HARBOR-DRIVE_TYPE: drive
+          RCLONE_CONFIG_HARBOR-DRIVE_SCOPE: drive.readonly
+          RCLONE_CONFIG_HARBOR-DRIVE_TOKEN: ${{ secrets.GOOGLE_DRIVE_RCLONE_TOKEN }}
+          RCLONE_CONFIG_HARBOR-DRIVE_CLIENT_ID: ${{ secrets.GOOGLE_DRIVE_OAUTH_CLIENT_ID }}
+          RCLONE_CONFIG_HARBOR-DRIVE_CLIENT_SECRET: ${{ secrets.GOOGLE_DRIVE_OAUTH_CLIENT_SECRET }}
+        run: |
+          ./scripts/install_pinned_rclone.sh
+          python -m runtime.context_main audit \
+            --output .artifacts/business-context/context-audit.json
+      - name: Upload bounded context evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: business-context-${{ github.run_id }}
+          path: .artifacts/business-context/
+          retention-days: 30
+          if-no-files-found: error

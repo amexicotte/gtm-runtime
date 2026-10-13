@@ -1,0 +1,157 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "name": "outbound delivery completes one exact activity and creates one chase",
+      "event": {
+        "source_id": "thread:golden-delivery",
+        "occurred_at": "2026-08-17T12:00:00+00:00",
+        "title": "Onsite prep",
+        "content": "[mail-delivery | 2026-08-17T12:00:00+00:00 | outbound | from alex@harboradvisors.example]\nAttached is the onsite prep document: https://docs.example/prep. Please send us legal comments by Friday.",
+        "account_ids": ["account-1"],
+        "contact_ids": ["contact-1"],
+        "deal_ids": ["deal-1"],
+        "attachments": [{"type": "link", "url": "https://docs.example/prep"}],
+        "open_activity_candidates": [
+          {
+            "id": "activity-send-prep",
+            "title": "Send onsite prep document",
+            "unique_match": true,
+            "requires_delivery_evidence": true,
+            "related_ids": ["contact-1", "deal-1"]
+          }
+        ]
+      },
+      "message_sources": [
+        ["mail-delivery", "Attached is the onsite prep document: https://docs.example/prep. Please send us legal comments by Friday.", "2026-08-17T12:00:00+00:00"]
+      ],
+      "outbound_sources": [
+        ["mail-delivery", "Attached is the onsite prep document: https://docs.example/prep. Please send us legal comments by Friday.", "2026-08-17T12:00:00+00:00"]
+      ],
+      "contact_email_ids": {"jane@example.com": "contact-1"},
+      "ambiguous_deal": false,
+      "model_output": {
+        "relevant": true,
+        "timeline_event": {
+          "headline": "Onsite preparation delivered",
+          "body": "Harbor sent the onsite preparation document and asked Jane to return legal comments by Friday.",
+          "labels": ["Task completed", "Next step"]
+        },
+        "account": {},
+        "deal": {
+          "stage": {
+            "status": "ANSWERED",
+            "value": "Proposal",
+            "evidence": {"excerpt": "legal comments by Friday", "confidence": 0.92}
+          }
+        },
+        "contacts": [],
+        "new_activities": [
+          {
+            "title": "Chase legal comments",
+            "due_date": "2026-08-21",
+            "evidence": {"excerpt": "Please send us legal comments by Friday.", "confidence": 0.94}
+          }
+        ],
+        "activity_completions": [
+          {
+            "activity_id": "activity-send-prep",
+            "decision": "completed",
+            "expects_client_response": true,
+            "evidence": {"excerpt": "Attached is the onsite prep document", "confidence": 0.97}
+          }
+        ]
+      },
+      "expected": {
+        "account_ids": ["account-1"],
+        "contact_ids": ["contact-1"],
+        "deal_ids": ["deal-1"],
+        "deal_fields": ["stage"],
+        "new_activity_titles": ["Chase legal comments"],
+        "completed_activity_ids": ["activity-send-prep"],
+        "completion_source_timeline_ids": ["mail-delivery"],
+        "timeline_headline": "Onsite preparation delivered",
+        "prohibited_actions": []
+      }
+    },
+    {
+      "name": "ambiguous deal and inbound claim cannot mutate a deal or complete delivery",
+      "event": {
+        "source_id": "thread:golden-ambiguous",
+        "occurred_at": "2026-08-17T15:00:00+00:00",
+        "title": "Re: Proposal",
+        "content": "[mail-inbound | 2026-08-17T15:00:00+00:00 | inbound | from jane@example.com]\nWe signed and are ready to move forward. I believe your team sent the SOW yesterday.",
+        "account_ids": ["account-1"],
+        "contact_ids": ["contact-1"],
+        "deal_ids": [],
+        "attachments": [],
+        "open_activity_candidates": [
+          {
+            "id": "activity-send-sow",
+            "title": "Send SOW",
+            "unique_match": true,
+            "requires_delivery_evidence": true,
+            "related_ids": ["contact-1"]
+          }
+        ]
+      },
+      "message_sources": [
+        ["mail-inbound", "We signed and are ready to move forward. I believe your team sent the SOW yesterday.", "2026-08-17T15:00:00+00:00"]
+      ],
+      "outbound_sources": [],
+      "contact_email_ids": {"jane@example.com": "contact-1"},
+      "ambiguous_deal": true,
+      "model_output": {
+        "relevant": true,
+        "timeline_event": {
+          "headline": "Client reports signing",
+          "body": "Jane reports that the agreement was signed, but the thread is ambiguous between active Deals and does not prove outbound SOW delivery.",
+          "labels": ["Decision", "Risk"]
+        },
+        "account": {},
+        "deal": {
+          "stage": {
+            "status": "ANSWERED",
+            "value": "Won",
+            "evidence": {"excerpt": "We signed and are ready to move forward", "confidence": 0.99}
+          }
+        },
+        "contacts": [
+          {
+            "email": "unmatched@example.net",
+            "role_title": {
+              "status": "ANSWERED",
+              "value": "VP Sales",
+              "evidence": {"excerpt": "We signed", "confidence": 0.9}
+            }
+          }
+        ],
+        "new_activities": [],
+        "activity_completions": [
+          {
+            "activity_id": "activity-send-sow",
+            "decision": "completed",
+            "expects_client_response": true,
+            "evidence": {"excerpt": "your team sent the SOW yesterday", "confidence": 0.99}
+          }
+        ]
+      },
+      "expected": {
+        "account_ids": ["account-1"],
+        "contact_ids": ["contact-1"],
+        "deal_ids": [],
+        "deal_fields": [],
+        "new_activity_titles": [],
+        "completed_activity_ids": [],
+        "completion_source_timeline_ids": [],
+        "timeline_headline": "Client reports signing",
+        "prohibited_actions": [
+          "guess_deal",
+          "set_won",
+          "complete_from_inbound_claim",
+          "write_unmatched_contact"
+        ]
+      }
+    }
+  ]
+}

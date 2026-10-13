@@ -1,0 +1,35 @@
+name: due-activity-slack-alerts
+
+# Two standard UTC slots provide a redundant same-day pass without relying on
+# GitHub's timezone-aware cron extension. The operation is idempotent: once a
+# monday Activity stores its Slack timestamp, the second pass does not repost.
+on:
+  schedule:
+    - cron: "5 12,14 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: harbor-business-listening-writes
+  cancel-in-progress: false
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: engine/requirements.txt
+      - run: pip install -r engine/requirements.txt
+      - name: Post due Activity alerts
+        env:
+          MONDAY_API_TOKEN: ${{ secrets.MONDAY_API_KEY }}
+          MONDAY_API_VERSION: ${{ vars.MONDAY_API_VERSION }}
+          MONDAY_DEFAULT_OWNER_ID: ${{ vars.MONDAY_DEFAULT_OWNER_ID || '100000007' }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_DEAL_ALERTS_CHANNEL: ${{ vars.SLACK_DEAL_ALERTS_CHANNEL || 'deal-alerts' }}
+          BUSINESS_LISTENING_WRITE_KILL_SWITCH: ${{ vars.BUSINESS_LISTENING_WRITE_KILL_SWITCH || 'false' }}
+        run: PYTHONPATH=engine python -m runtime.activity_alert_main

@@ -1,0 +1,240 @@
+_meta:
+  schema_version: 2
+  schema_snapshot: docs/live-monday-schema.json
+  snapshot_captured_at: 2026-08-24T17:46:22.961450+00:00
+  policies: [overwrite, merge, explicit_only, bounded, relation, never]
+  evidence: "required means excerpt + confidence + deterministic source_id/occurred_at"
+
+# Every column in the Phase 0 snapshot is explicit below. `model: false` keeps
+# identity, lifecycle, derived, integration, and human-managed fields out of the
+# reasoning prompt even though their ownership policy remains machine-readable.
+meeting:
+  name: {column: "Name", id: name, type: name, policy: never, owner: source_adapter, model: false}
+  subitems: {column: "Subitems", id: subtasks_mm5s81e8, type: subtasks, policy: never, owner: human, model: false}
+  transcript: {column: "Transcript", id: link_mm5rdhph, type: link, policy: never, owner: source_adapter, model: false}
+  date: {column: "Date", id: date_mm5ryvk, type: date, policy: never, owner: source_adapter, model: false}
+  call_type: {column: "Call Type", id: color_mm5r9tp0, type: status, policy: bounded, owner: listening_writer, extract: "Intro / Sales / Client / Project / Referral / Internal", allowed_values: [Intro, Sales, Client, Project, Referral, Internal], evidence: required}
+  internal_external: {column: "Internal/External", id: color_mm5r3vta, type: status, policy: never, owner: identity_gate, model: false}
+  processing_status: {column: "Processing Status", id: color_mm5rnd15, type: status, policy: never, owner: orchestrator, model: false}
+  summary: {column: "Summary", id: long_text_mm5r5a6w, type: long_text, policy: overwrite, owner: listening_writer, extract: "concise factual meeting summary", evidence: required}
+  action_items: {column: "Action Items", id: long_text_mm5rwmrf, type: long_text, policy: overwrite, owner: listening_writer, extract: "explicit commitments and clear next steps", evidence: required}
+  attendee_emails: {column: "Attendee Emails", id: long_text_mm5r7ht9, type: long_text, policy: never, owner: source_adapter, model: false}
+  proposal_needed: {column: "Proposal Needed?", id: boolean_mm5rwcq4, type: checkbox, policy: explicit_only, owner: listening_writer, extract: "true only when a proposal is an explicit next step", evidence: required}
+  owner: {column: "Owner", id: multiple_person_mm5rpemd, type: people, policy: never, owner: deterministic_owner_resolver, model: false}
+  external_attendees: {column: "External Attendees", id: board_relation_mm5rmj06, type: board_relation, policy: never, owner: identity_gate, model: false}
+  account_relation: {column: "Account", id: board_relation_mm5r8ev7, type: board_relation, policy: never, owner: identity_gate, model: false}
+  deal_relation: {column: "Deal", id: board_relation_mm5rf9wt, type: board_relation, policy: never, owner: deal_resolver, model: false}
+  activities_relation: {column: "link to Activities", id: board_relation_mm5rznhx, type: board_relation, policy: never, owner: activity_writer, model: false}
+  fireflies_id: {column: "Fireflies Transcript ID", id: text_mm5sqk84, type: text, policy: never, owner: fireflies_adapter, model: false}
+  call_notes_prompt_ts: {column: "Call Notes Prompt TS", id: text_mm5s8fwz, type: text, policy: never, owner: slack_notes, model: false}
+  call_notes_last_ts: {column: "Call Notes Last TS", id: text_mm5s1k1d, type: text, policy: never, owner: slack_notes, model: false}
+  notes_requested_at: {column: "Notes Requested At", id: text_mm5sqdv, type: text, policy: never, owner: slack_notes, model: false}
+  notes_status: {column: "Notes Status", id: text_mm5s2yaa, type: text, policy: never, owner: slack_notes, model: false}
+  manual_notes: {column: "Manual Notes", id: long_text_mm5sxyxr, type: long_text, policy: never, owner: slack_notes, model: false}
+  slack_note_ids: {column: "Slack Note IDs", id: text_mm5s5p08, type: text, policy: never, owner: slack_notes, model: false}
+  prospect_account_id: {column: "Prospect Account ID", id: text_mm5shkt2, type: text, policy: never, owner: identity_gate, model: false}
+  partner_account_ids: {column: "Partner Account IDs", id: text_mm5srtqj, type: text, policy: never, owner: identity_gate, model: false}
+  contact_ids: {column: "Contact IDs", id: text_mm5sz70x, type: text, policy: never, owner: identity_gate, model: false}
+  resolved_deal_id: {column: "Resolved Deal ID", id: text_mm5sxfan, type: text, policy: never, owner: deal_resolver, model: false}
+  fireflies_summary: {column: "Fireflies Summary", id: long_text_mm5s1fdv, type: long_text, policy: never, owner: fireflies_adapter, model: false}
+  attendee_details: {column: "Attendee Details", id: long_text_mm5whjvp, type: long_text, policy: never, owner: source_adapter, model: false}
+  contact_email_ids: {column: "Contact Email IDs", id: long_text_mm5w5jhc, type: long_text, policy: never, owner: identity_gate, model: false}
+  reasoning_result_legacy: {column: "Reasoning Result", id: long_text_mm5wqgqh, type: long_text, policy: never, owner: orchestrator, model: false}
+  processing_started_at: {column: "Processing Started At", id: text_mm5wprms, type: text, policy: never, owner: orchestrator, model: false}
+  follow_up_date: {column: "Follow-up Date", id: date_mm5wq95n, type: date, policy: explicit_only, owner: listening_writer, extract: "explicit agreed follow-up or next-meeting date; otherwise null", evidence: required}
+  reasoning_cache: {column: "Reasoning Cache", id: text_mm5wp7b, type: text, policy: never, owner: orchestrator, model: false}
+  slack_intake_ts: {column: "Slack Intake TS", id: text_mm64bsnk, type: text, policy: never, owner: manual_note_adapter, model: false}
+  slack_intake_user: {column: "Slack Intake User", id: text_mm64yg9b, type: text, policy: never, owner: manual_note_adapter, model: false}
+  manual_notes_cache: {column: "Manual Notes Cache", id: text_mm64w31r, type: text, policy: never, owner: slack_notes, model: false}
+  reasoning_audit: {column: "Reasoning Audit", id: text_mm64ttc6, type: text, policy: never, owner: orchestrator, model: false}
+  reasoning_feedback: {column: "Reasoning Feedback", id: text_mm64hqn5, type: text, policy: never, owner: slack_feedback, model: false}
+  reasoning_score: {column: "Reasoning Score", id: text_mm64seds, type: text, policy: never, owner: slack_feedback, model: false}
+  feedback_last_ts: {column: "Feedback Last TS", id: text_mm648zgx, type: text, policy: never, owner: slack_feedback, model: false}
+  reasoning_review_ts: {column: "Reasoning Review TS", id: text_mm64m96n, type: text, policy: never, owner: slack_feedback, model: false}
+  manual_notes_chars: {column: "Manual Notes Chars", id: text_mm643ym5, type: text, policy: never, owner: slack_notes, model: false}
+  manual_notes_sha256: {column: "Manual Notes SHA256", id: text_mm64pgbj, type: text, policy: never, owner: slack_notes, model: false}
+  manual_notes_payload: {column: "Manual Notes Payload", id: text_mm65npk4, type: text, policy: never, owner: slack_notes, model: false}
+  agent_field_provenance: {column: "Agent Field Provenance", id: managed, type: long_text, policy: never, owner: listening_writer, model: false, managed_addition: true}
+
+client_project:
+  name: {column: "Name", id: name, type: name, policy: never, owner: monday_automation, model: false}
+  subitems: {column: "Subitems", id: subitems, type: subtasks, policy: never, owner: human, model: false}
+  owner: {column: "Owner", id: project_owner, type: people, policy: never, owner: human, model: false}
+  priority: {column: "Priority", id: project_prority, type: status, policy: never, owner: human, model: false}
+  timeline: {column: "Timeline", id: project_timeline, type: timeline, policy: never, owner: human, model: false}
+  status: {column: "Status", id: project_status, type: status, policy: never, owner: human, model: false}
+  deals: {column: "Deals", id: project_opportunity, type: board_relation, policy: never, owner: monday_automation, model: false}
+  contact: {column: "Contact", id: project_contact, type: board_relation, policy: never, owner: monday_automation, model: false}
+  accounts: {column: "Accounts", id: connect_boards, type: board_relation, policy: never, owner: monday_automation, model: false}
+  slack_channel: {column: "Slack Channel", id: managed, type: link, policy: never, owner: explicit_onboarding_reply, model: false, managed_addition: true}
+  collaboration_platform: {column: "Collaboration Platform", id: managed, type: text, policy: never, owner: explicit_onboarding_reply, model: false, managed_addition: true}
+  client_collaboration_channel: {column: "Client Collaboration Channel", id: managed, type: link, policy: never, owner: explicit_onboarding_reply, model: false, managed_addition: true}
+
+deal:
+  name: {column: "Name", id: name, type: name, policy: never, owner: deterministic_creator, model: false}
+  tasks: {column: "Tasks", id: subitems, type: subtasks, policy: never, owner: human, model: false}
+  activities_timeline: {column: "Activities timeline", id: custom_mkrmrgz6, type: unsupported, policy: never, owner: monday_app, model: false}
+  created_date: {column: "Created Date", id: managed, type: creation_log, policy: never, owner: monday_derived, model: false, managed_addition: true}
+  mercury_customer_id: {column: "Mercury Customer ID", id: mercury_customer_id, type: text, policy: never, owner: mercury_integration, model: false}
+  stage: {column: "Stage", id: deal_stage, type: status, policy: bounded, owner: listening_writer, extract: "current pipeline stage only on an explicit signal; Won is prohibited", allowed_values: [New, Discovery, Proposal, Negotiation, Lost], evidence: required}
+  owner: {column: "Owner", id: deal_owner, type: people, policy: never, owner: deterministic_owner_resolver, model: false}
+  fixed_fee: {column: "Fixed Fee", id: fixed_fee, type: numbers, policy: never, owner: docusign_contract_writer, model: false, managed_addition: true}
+  monthly_retainer: {column: "Monthly Retainer", id: monthly_retainer, type: numbers, policy: never, owner: docusign_contract_writer, model: false, managed_addition: true}
+  hourly_rate: {column: "Hourly Rate", id: hourly_rate, type: numbers, policy: never, owner: docusign_contract_writer, model: false, managed_addition: true}
+  estimated_hours: {column: "Estimated Hours", id: estimated_hours, type: numbers, policy: never, owner: docusign_contract_writer, model: false, managed_addition: true}
+  calculated_deal_value: {column: "Calculated Deal Value", id: calc_deal_value, type: formula, policy: never, owner: monday_derived, model: false, managed_addition: true}
+  contracted_scope: {column: "Contracted Scope", id: contracted_scope, type: long_text, policy: never, owner: docusign_contract_writer, model: false, managed_addition: true}
+  renewal_termination_terms: {column: "Renewal / Termination Terms", id: renewal_termination, type: long_text, policy: never, owner: docusign_contract_writer, model: false, managed_addition: true}
+  contract_signers: {column: "Contract Signers", id: contract_signers, type: long_text, policy: never, owner: docusign_adapter, model: false, managed_addition: true}
+  contract_signed_at: {column: "Contract Signed At", id: contract_signed_at, type: date, policy: never, owner: docusign_adapter, model: false, managed_addition: true}
+  docusign_envelope_id: {column: "DocuSign Envelope ID", id: docusign_envelope_id, type: text, policy: never, owner: docusign_adapter, model: false, managed_addition: true}
+  onboarding_slack_ts: {column: "Client Onboarding Slack TS", id: managed, type: text, policy: never, owner: docusign_onboarding, model: false, managed_addition: true}
+  onboarding_slack_link: {column: "Client Onboarding Slack Link", id: managed, type: link, policy: never, owner: docusign_onboarding, model: false, managed_addition: true}
+  onboarding_slack_last_ts: {column: "Client Onboarding Slack Last TS", id: managed, type: text, policy: never, owner: docusign_onboarding, model: false, managed_addition: true}
+  collaboration_connected_at: {column: "Client Collaboration Connected At", id: managed, type: text, policy: never, owner: explicit_onboarding_reply, model: false, managed_addition: true}
+  billing_cadence: {column: "Billing Cadence", id: billing_cadence, type: text, policy: never, owner: docusign_contract_writer, model: false, managed_addition: true}
+  payment_terms: {column: "Payment Terms", id: payment_terms, type: long_text, policy: never, owner: docusign_contract_writer, model: false, managed_addition: true}
+  contract_effective_date: {column: "Contract Effective Date", id: contract_effective_date, type: date, policy: never, owner: docusign_contract_writer, model: false, managed_addition: true}
+  signed_contract_drive_link: {column: "Signed Contract Drive Link", id: signed_contract_drive_link, type: link, policy: never, owner: docusign_archive_writer, model: false, managed_addition: true}
+  deal_value: {column: "Deal Value", id: deal_value, type: numbers, policy: overwrite, owner: listening_writer, extract: "expected contract or annual value when explicitly stated", evidence: required}
+  contacts: {column: "Contacts", id: deal_contact, type: board_relation, policy: never, owner: identity_gate, model: false}
+  account_from_contacts: {column: "Account (from Contacts)", id: deal_account, type: mirror, policy: never, owner: monday_derived, model: false}
+  expected_close_date: {column: "Expected Close Date", id: deal_expected_close_date, type: date, policy: explicit_only, owner: listening_writer, extract: "explicit expected close date", evidence: required}
+  close_probability: {column: "Close Probability", id: deal_close_probability, type: numbers, policy: explicit_only, owner: listening_writer, extract: "explicit probability, never inferred from stage", evidence: required}
+  forecast_value: {column: "Forecast Value", id: deal_forecast_value, type: formula, policy: never, owner: monday_derived, model: false}
+  commander_open_pipeline: {column: "Commander | Open Pipeline", id: managed, type: formula, policy: never, owner: monday_derived, model: false, managed_addition: true}
+  commander_estimated_close: {column: "Commander | Estimated Close (33%)", id: managed, type: formula, policy: never, owner: monday_derived, model: false, managed_addition: true}
+  last_interaction: {column: "Last interaction", id: date__1, type: date, policy: never, owner: event_writer, model: false}
+  quotes_invoices: {column: "Quotes & Invoices", id: custom_mknwwj0z, type: unsupported, policy: never, owner: monday_app, model: false}
+  forecast_category: {column: "Forecast categories", id: color_mm1hjwv8, type: status, policy: never, owner: human, model: false}
+  acquisition_source: {column: "Source", id: color_mm5reec3, type: status, policy: explicit_only, owner: listening_writer, extract: "Referral / Network / LinkedIn / Inbound / Outbound / Expansion / Other when explicitly stated", allowed_values: [Referral, Network, LinkedIn, Inbound, Outbound, Expansion, Other], evidence: required}
+  billing_model: {column: "Billing Model", id: color_mm5rt4mb, type: status, policy: explicit_only, owner: listening_writer, extract: "Monthly / Hourly / Fixed fee / Mixed / Unknown", allowed_values: [Monthly, Hourly, "Fixed fee", Mixed, Unknown], evidence: required}
+  collected_revenue: {column: "Collected Revenue", id: numeric_mm5rdht9, type: numbers, policy: never, owner: human, model: false}
+  engagement_dates: {column: "Engagement Dates", id: timerange_mm5r73by, type: timeline, policy: explicit_only, owner: listening_writer, extract: "explicit engagement start/end dates as {from: YYYY-MM-DD, to: YYYY-MM-DD}", evidence: required}
+  service_type: {column: "Service Type", id: dropdown_mm5r2kpk, type: dropdown, policy: explicit_only, owner: listening_writer, extract: "one or more exact live Harbor service labels explicitly in scope", allowed_values: [Project, retainer, "GTM Strategy & Execution", "RevOps / HubSpot Implementation", "Data Enrichment & Account List Building", "GTM advisory, sales process design, CRM setup, outbound campaign management, meeting prep, and sales coaching", "GTM Advisory & RevOps", "Account Scoring & Signal Enrichment (Clay‑based outbound intelligence build)", "Data Enrichment / Prospect List Cleaning", "Implementation services: account list building, channel setup, and CRM surgery/setup", "RevOps Platform", "RevOps infrastructure / CRM setup + GTM growth plays", "Property sourcing & enrichment", "Lead scoring", "Outbound channel setup (direct mail, email, LinkedIn, cold calling)", "Measurement framework", RevOps, "Salesforce implementation", "Signal/Data infrastructure", "Deal origination", "Data capture / research calling project", "AI advisory and development", "Team enablement"], evidence: required}
+  identified_pain: {column: "Identified Pain", id: long_text_mm5rwkhs, type: long_text, policy: overwrite, owner: listening_writer, extract: "revenue problem in the buyer's words", evidence: required}
+  metrics: {column: "Metrics", id: long_text_mm5r4ed, type: long_text, policy: overwrite, owner: listening_writer, extract: "quantified impact or success metrics", evidence: required}
+  economic_buyer: {column: "Economic Buyer", id: long_text_mm5rqcks, type: long_text, policy: overwrite, owner: listening_writer, extract: "person or role controlling budget", evidence: required}
+  decision_criteria: {column: "Decision Criteria", id: long_text_mm5rg0b3, type: long_text, policy: overwrite, owner: listening_writer, extract: "criteria used to judge the decision", evidence: required}
+  decision_process: {column: "Decision Process", id: long_text_mm5r4ztt, type: long_text, policy: overwrite, owner: listening_writer, extract: "steps and timeline to a decision", evidence: required}
+  qualification_gaps: {column: "Qualification Gaps", id: long_text_mm5rw5vw, type: long_text, policy: overwrite, owner: listening_writer, extract: "MEDDIC elements not discussed, as the next-call agenda", evidence: required}
+  competition: {column: "Competition", id: text_mm5rbwpq, type: text, policy: overwrite, owner: listening_writer, extract: "alternatives including in-house and do-nothing", evidence: required}
+  champion_name: {column: "Champion", id: board_relation_mm5rjzyc, type: board_relation, policy: relation, owner: listening_writer, extract: "resolved external Contact who is the internal advocate", evidence: required}
+  client_project: {column: "Client Project", id: board_relation_mm5rfvnm, type: board_relation, policy: never, owner: monday_automation, model: false}
+  deal_notes: {column: "Notes", id: long_text_mm5rphwf, type: long_text, policy: merge, owner: listening_writer, extract: "durable deal-specific context not captured elsewhere", evidence: required}
+  meetings: {column: "link to Meetings", id: board_relation_mm5rhpdn, type: board_relation, policy: never, owner: deterministic_creator, model: false}
+  review_status: {column: "Review Status", id: color_mm5wwnpx, type: status, policy: never, owner: listening_writer, model: false}
+  proposed_changes: {column: "Proposed Changes", id: long_text_mm5wcgq5, type: long_text, policy: never, owner: retired_review_queue, model: false}
+  monday_doc: {column: "monday Doc v2", id: direct_doc_mm5wbmfp, type: direct_doc, policy: never, owner: human, model: false}
+  account: {column: "Account", id: board_relation_mm5wzb2m, type: board_relation, policy: never, owner: deterministic_creator, model: false}
+  last_interaction_source_event: {column: "Last Interaction Source Event", id: managed, type: text, policy: never, owner: event_writer, model: false, managed_addition: true}
+  last_inbound_email_at: {column: "Last Inbound Email At", id: managed, type: text, policy: never, owner: email_adapter, model: false, managed_addition: true}
+  last_inbound_source_event: {column: "Last Inbound Source Event", id: managed, type: text, policy: never, owner: email_adapter, model: false, managed_addition: true}
+  nudge_slack_ts: {column: "Nudge Slack TS", id: managed, type: text, policy: never, owner: nudge_engine, model: false, managed_addition: true}
+  nudge_slack_link: {column: "Nudge Slack Link", id: managed, type: link, policy: never, owner: nudge_engine, model: false, managed_addition: true}
+  nudge_condition_key: {column: "Nudge Condition Key", id: managed, type: text, policy: never, owner: nudge_engine, model: false, managed_addition: true}
+  agent_field_provenance: {column: "Agent Field Provenance", id: managed, type: long_text, policy: never, owner: listening_writer, model: false, managed_addition: true}
+
+account:
+  name: {column: "Name", id: name, type: name, policy: never, owner: deterministic_creator, model: false}
+  domain: {column: "Domain", id: company_domain, type: link, policy: never, owner: identity_gate, model: false}
+  contacts: {column: "Contacts", id: account_contact, type: board_relation, policy: never, owner: identity_gate, model: false}
+  deals_from_contacts: {column: "Deals (from Contacts)", id: account_deal, type: mirror, policy: never, owner: monday_derived, model: false}
+  company_profile: {column: "Company profile", id: company_profile, type: link, policy: never, owner: human, model: false}
+  account_type: {column: "Type", id: status, type: status, policy: never, owner: lifecycle_automation_and_reply_control, model: false, allowed_values: ["Active Client", "Completed - Past Client", Prospect, Partner, Vendor, "AI Investment"]}
+  domain_match_key: {column: "Domain (match key)", id: text_mm5r760h, type: text, policy: never, owner: identity_gate, model: false}
+  source: {column: "Source", id: color_mm5r9qvf, type: status, policy: explicit_only, owner: listening_writer, extract: "Referral / Network / LinkedIn / Inbound / Outbound / Expansion / Other when explicitly stated", allowed_values: [Referral, Network, LinkedIn, Inbound, Outbound, Expansion, Other], evidence: required}
+  source_contact: {column: "Source — Contact", id: board_relation_mm5r85hn, type: board_relation, policy: never, owner: human, model: false}
+  engagement_type: {column: "Engagement Type", id: dropdown_mm5ryn14, type: dropdown, policy: explicit_only, owner: listening_writer, extract: "exact live engagement type when explicitly stated", allowed_values: ["Outbound Acceleration", "Lead Sourcing Tool", "GTM Implementation", "GTM System Buildout", "GTM Retainer", "Rev Ops Support", "List Enrichment"], evidence: required}
+  next_follow_up: {column: "Next Follow-up", id: date_mm5r5gp4, type: date, policy: explicit_only, owner: listening_writer, extract: "explicit Account-level follow-up date", evidence: required}
+  relationship_owner: {column: "Relationship Owner", id: multiple_person_mm5rmcfe, type: people, policy: never, owner: deterministic_owner_resolver, model: false}
+  account_notes: {column: "Notes", id: long_text_mm5r6tnx, type: long_text, policy: merge, owner: listening_writer, extract: "durable company context that survives this Deal", evidence: required}
+  client_projects: {column: "Client Projects", id: board_relation_mm5r79a6, type: board_relation, policy: never, owner: monday_automation, model: false}
+  follow_up_cadence: {column: "Follow-up Cadence", id: color_mm5rmymb, type: status, policy: explicit_only, owner: listening_writer, extract: "Weekly / Biweekly / Monthly / Quarterly / As needed when explicit", allowed_values: [Weekly, Biweekly, Monthly, Quarterly, "As needed"], evidence: required}
+  drive_folder: {column: "Drive Folder", id: link_mm5rr5yg, type: link, policy: never, owner: human, model: false}
+  source_contact_company: {column: "Source Contact's Company", id: lookup_mm5rzytr, type: mirror, policy: never, owner: monday_derived, model: false}
+  meetings: {column: "link to Meetings", id: board_relation_mm5r6tmn, type: board_relation, policy: never, owner: identity_gate, model: false}
+  monday_doc: {column: "monday Doc v2", id: direct_doc_mm5sr0af, type: direct_doc, policy: never, owner: human, model: false}
+  review_status: {column: "Review Status", id: color_mm5v3y03, type: status, policy: never, owner: listening_writer, model: false}
+  proposed_changes: {column: "Proposed Changes", id: long_text_mm5vvjnz, type: long_text, policy: never, owner: retired_review_queue, model: false}
+  deals: {column: "Deals", id: board_relation_mm5wqpwq, type: board_relation, policy: never, owner: deterministic_creator, model: false}
+  agent_field_provenance: {column: "Agent Field Provenance", id: managed, type: long_text, policy: never, owner: listening_writer, model: false, managed_addition: true}
+  collaboration_platform: {column: "Collaboration Platform", id: managed, type: text, policy: never, owner: explicit_onboarding_reply, model: false, managed_addition: true}
+  client_collaboration_channel: {column: "Client Collaboration Channel", id: managed, type: link, policy: never, owner: explicit_onboarding_reply, model: false, managed_addition: true}
+
+contact:
+  name: {column: "Name", id: name, type: name, policy: never, owner: identity_gate, model: false}
+  subitems: {column: "Subitems", id: subtasks_mkvpdgxr, type: subtasks, policy: never, owner: human, model: false}
+  email: {column: "Email", id: contact_email, type: email, policy: never, owner: identity_gate, model: false}
+  activities_timeline: {column: "Activities timeline", id: custom_mkrm9y8c, type: unsupported, policy: never, owner: monday_app, model: false}
+  accounts: {column: "Accounts", id: contact_account, type: board_relation, policy: never, owner: identity_gate, model: false}
+  deals: {column: "Deals", id: contact_deal, type: board_relation, policy: never, owner: deterministic_creator, model: false}
+  deals_value: {column: "Deals value", id: mirror2, type: mirror, policy: never, owner: monday_derived, model: false}
+  phone: {column: "Phone", id: contact_phone, type: phone, policy: never, owner: human, model: false}
+  contact_type: {column: "Type", id: status, type: status, policy: never, owner: human, model: false}
+  comments: {column: "Comments", id: long_text4, type: long_text, policy: never, owner: human, model: false}
+  legacy_accounts: {column: "link to Accounts", id: board_relation_mm5rb1tk, type: board_relation, policy: never, owner: legacy_relation, model: false}
+  linkedin: {column: "LinkedIn", id: link_mm5r7v7e, type: link, policy: explicit_only, owner: listening_writer, extract: "explicit LinkedIn profile URL", evidence: required}
+  role_title: {column: "Role / Title", id: text_mm5rz9gp, type: text, policy: overwrite, owner: listening_writer, extract: "job title if explicitly learned", evidence: required}
+  relationship_type: {column: "Relationship Type", id: color_mm5rre7q, type: status, policy: explicit_only, owner: listening_writer, extract: "Client contact / Prospect / Referral partner / Contractor / Other when explicit", allowed_values: ["Client contact", Prospect, "Referral partner", Contractor, Other], evidence: required}
+  source: {column: "Source", id: color_mm5rxx98, type: status, policy: explicit_only, owner: listening_writer, extract: "Referral / Network / LinkedIn / Partner / Inbound / Other when explicitly stated", allowed_values: [Referral, Network, LinkedIn, Partner, Inbound, Other], evidence: required}
+  follow_up_cadence: {column: "Follow-up Cadence", id: color_mm5rwzda, type: status, policy: explicit_only, owner: listening_writer, extract: "Weekly / Biweekly / Monthly / Quarterly / As needed when explicit", allowed_values: [Weekly, Biweekly, Monthly, Quarterly, "As needed"], evidence: required}
+  next_follow_up: {column: "Next Follow-up", id: date_mm5rv03f, type: date, policy: explicit_only, owner: listening_writer, extract: "explicit Contact-level follow-up date", evidence: required}
+  last_interaction: {column: "Last Interaction", id: date_mm5rjnav, type: date, policy: never, owner: event_writer, model: false}
+  contact_notes: {column: "Notes", id: long_text_mm5r6r8y, type: long_text, policy: merge, owner: listening_writer, extract: "durable context about this person", evidence: required}
+  legacy_deals: {column: "link to Deals", id: board_relation_mm5r9zfg, type: board_relation, policy: never, owner: legacy_relation, model: false}
+  meetings: {column: "link to Meetings", id: board_relation_mm5r99fs, type: board_relation, policy: never, owner: identity_gate, model: false}
+  review_status: {column: "Review Status", id: color_mm5ww59f, type: status, policy: never, owner: listening_writer, model: false}
+  proposed_changes: {column: "Proposed Changes", id: long_text_mm5wwd51, type: long_text, policy: never, owner: retired_review_queue, model: false}
+  website_form: {column: "Website Form", id: website_form, type: status, policy: never, owner: website_form, model: false}
+  utm_source: {column: "UTM Source", id: utm_source, type: text, policy: never, owner: website_form, model: false}
+  utm_medium: {column: "UTM Medium", id: utm_medium, type: text, policy: never, owner: website_form, model: false}
+  utm_campaign: {column: "UTM Campaign", id: utm_campaign, type: text, policy: never, owner: website_form, model: false}
+  utm_content: {column: "UTM Content", id: utm_content, type: text, policy: never, owner: website_form, model: false}
+  agent_field_provenance: {column: "Agent Field Provenance", id: managed, type: long_text, policy: never, owner: listening_writer, model: false, managed_addition: true}
+
+activity:
+  name: {column: "Name", id: name, type: name, policy: never, owner: activity_writer, model: false}
+  owner: {column: "Owner", id: activity_owner, type: people, policy: never, owner: deterministic_owner_resolver, model: false}
+  status: {column: "Status", id: activity_status, type: status, policy: never, owner: activity_writer, model: false}
+  activity_type: {column: "Activity Type", id: activity_type, type: status, policy: never, owner: monday_ea, model: false}
+  start_time: {column: "Start time", id: activity_start_time, type: date, policy: never, owner: monday_ea, model: false}
+  end_time: {column: "End time", id: activity_end_time, type: date, policy: never, owner: monday_ea, model: false}
+  related_item: {column: "Related item", id: activity_item, type: board_relation, policy: never, owner: activity_writer, model: false}
+  task_type: {column: "Task Type", id: color_mm5rmpa, type: status, policy: never, owner: activity_writer, model: false}
+  review_status: {column: "Review Status", id: color_mm5reakb, type: status, policy: never, owner: activity_writer, model: false}
+  priority: {column: "Priority", id: color_mm5r785z, type: status, policy: never, owner: activity_writer, model: false}
+  due_date: {column: "Due Date", id: date_mm5rfmss, type: date, policy: never, owner: activity_writer, model: false}
+  source_meeting: {column: "Source Meeting", id: board_relation_mm5rdsgg, type: board_relation, policy: never, owner: activity_writer, model: false}
+  notes: {column: "Notes", id: long_text_mm5scyqm, type: long_text, policy: never, owner: activity_writer, model: false}
+  slack_link: {column: "Slack Link", id: link_mm5sa16w, type: link, policy: never, owner: activity_writer, model: false}
+  slack_notification_ts: {column: "Slack Notification TS", id: text_mm5wp1fs, type: text, policy: never, owner: slack_alerts, model: false}
+  slack_last_ts: {column: "Slack Last TS", id: text_mm5warc4, type: text, policy: never, owner: slack_alerts, model: false}
+  source_notes_link: {column: "Source Notes Link", id: link_mm6574j8, type: link, policy: never, owner: activity_writer, model: false}
+  source_event_key: {column: "Source Event Key", id: managed, type: text, policy: never, owner: activity_writer, model: false, managed_addition: true}
+  completed_at: {column: "Completed At", id: managed, type: text, policy: never, owner: activity_reconciler, model: false, managed_addition: true}
+  completion_source_type: {column: "Completion Source Type", id: managed, type: text, policy: never, owner: activity_reconciler, model: false, managed_addition: true}
+  completion_source_event_key: {column: "Completion Source Event Key", id: managed, type: text, policy: never, owner: activity_reconciler, model: false, managed_addition: true}
+  completion_source_timeline_id: {column: "Completion Source Timeline ID", id: managed, type: text, policy: never, owner: activity_reconciler, model: false, managed_addition: true}
+  completion_evidence: {column: "Completion Evidence", id: managed, type: long_text, policy: never, owner: activity_reconciler, model: false, managed_addition: true}
+  completion_confidence: {column: "Completion Confidence", id: managed, type: numbers, policy: never, owner: activity_reconciler, model: false, managed_addition: true}
+  awaiting_client_reply: {column: "Awaiting Client Reply", id: managed, type: checkbox, policy: never, owner: activity_reconciler, model: false, managed_addition: true}
+  followup_nudge_slack_ts: {column: "Follow-up Nudge Slack TS", id: managed, type: text, policy: never, owner: nudge_engine, model: false, managed_addition: true}
+  followup_nudge_slack_link: {column: "Follow-up Nudge Slack Link", id: managed, type: link, policy: never, owner: nudge_engine, model: false, managed_addition: true}
+  followup_nudge_condition_key: {column: "Follow-up Nudge Condition Key", id: managed, type: text, policy: never, owner: nudge_engine, model: false, managed_addition: true}
+
+agent_event:
+  name: {column: "Name", id: name, type: name, policy: never, owner: event_ledger, model: false, managed_addition: true}
+  source_type: {column: "Source Type", id: managed, type: status, policy: never, owner: event_ledger, model: false, managed_addition: true}
+  source_id: {column: "Source ID", id: managed, type: text, policy: never, owner: event_ledger, model: false, managed_addition: true}
+  occurred_at: {column: "Occurred At", id: managed, type: text, policy: never, owner: event_ledger, model: false, managed_addition: true}
+  content_sha256: {column: "Content SHA256", id: managed, type: text, policy: never, owner: event_ledger, model: false, managed_addition: true}
+  processing_status: {column: "Processing Status", id: managed, type: status, policy: never, owner: event_ledger, model: false, managed_addition: true}
+  processing_started_at: {column: "Processing Started At", id: managed, type: text, policy: never, owner: event_ledger, model: false, managed_addition: true}
+  matched_account_ids: {column: "Matched Account IDs", id: managed, type: text, policy: never, owner: event_ledger, model: false, managed_addition: true}
+  matched_contact_ids: {column: "Matched Contact IDs", id: managed, type: text, policy: never, owner: event_ledger, model: false, managed_addition: true}
+  matched_deal_ids: {column: "Matched Deal IDs", id: managed, type: text, policy: never, owner: event_ledger, model: false, managed_addition: true}
+  reasoning_cache: {column: "Reasoning Cache", id: managed, type: text, policy: never, owner: event_ledger, model: false, managed_addition: true}
+  effects_audit: {column: "Effects/Audit JSON", id: managed, type: text, policy: never, owner: event_ledger, model: false, managed_addition: true}
+  source_url: {column: "Source URL", id: managed, type: link, policy: never, owner: event_ledger, model: false, managed_addition: true}
+  error_ambiguity: {column: "Error/Ambiguity", id: managed, type: text, policy: never, owner: event_ledger, model: false, managed_addition: true}

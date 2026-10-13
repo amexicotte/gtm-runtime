@@ -1,0 +1,272 @@
+name: harbor-email-listening-nightly
+
+on:
+  schedule:
+    # Separate expressions preserve the intended UTC slot in
+    # github.event.schedule even when GitHub queues the runner late.
+    - cron: "0 6 * * *"
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+    inputs:
+      live:
+        description: "Apply effects (still blocked unless every approval gate is configured)"
+        type: boolean
+        default: false
+      setup_schema:
+        description: "Create Phase 1/2 managed ledger, audit, and nudge columns"
+        type: boolean
+        default: false
+      since:
+        description: "Optional timezone-aware shadow lower bound"
+        type: string
+        default: ""
+      verification_contact_ids:
+        description: "Required comma-separated monday Contact IDs for manual live verification"
+        type: string
+        default: ""
+
+concurrency:
+  group: harbor-business-listening-writes
+  cancel-in-progress: false
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Keep only the 02:00 America/New_York trigger
+        id: time_gate
+        shell: bash
+        env:
+          # This explicit repository variable is the owner's activation control.
+          # An absent value fails closed.
+          EMAIL_NIGHTLY_ENABLED: ${{ vars.EMAIL_NIGHTLY_ENABLED }}
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_SCHEDULE: ${{ github.event.schedule }}
+        run: |
+          RUN_EMAIL_JOB=true
+          OFFSET="$(TZ=America/New_York date +%z)"
+          OFFSET_COLON="${OFFSET:0:3}:${OFFSET:3:2}"
+          SCHEDULED_DATE="$(TZ=America/New_York date +%F)"
+          SCHEDULED_FOR="${SCHEDULED_DATE}T02:00:00${OFFSET_COLON}"
+          EXPECTED_SCHEDULE="0 7 * * *"
+          if [[ "$OFFSET" == "-0400" ]]; then
+            EXPECTED_SCHEDULE="0 6 * * *"
+          fi
+          SCHEDULE_ELIGIBLE=false
+          if [[ "$EVENT_NAME" == "schedule" ]] && \
+             [[ "$EVENT_SCHEDULE" == "$EXPECTED_SCHEDULE" ]]; then
+            SCHEDULE_ELIGIBLE=true
+          fi
+          if [[ "$EVENT_NAME" == "schedule" ]] && \
+             [[ "$EMAIL_NIGHTLY_ENABLED" != "true" ]]; then
+            RUN_EMAIL_JOB=false
+          fi
+          if [[ "$EVENT_NAME" == "schedule" ]] && \
+             [[ "$SCHEDULE_ELIGIBLE" != "true" ]]; then
+            RUN_EMAIL_JOB=false
+          fi
+          echo "run=$RUN_EMAIL_JOB" >> "$GITHUB_OUTPUT"
+          echo "schedule_eligible=$SCHEDULE_ELIGIBLE" >> "$GITHUB_OUTPUT"
+          echo "scheduled_date=$SCHEDULED_DATE" >> "$GITHUB_OUTPUT"
+          echo "scheduled_for=$SCHEDULED_FOR" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v6
+        if: ${{ steps.time_gate.outputs.run == 'true' }}
+      - name: Read committed rollout activation
+        id: rollout_state
+        if: ${{ steps.time_gate.outputs.run == 'true' }}
+        run: |
+          echo "live=$(jq -r '.live_enabled // false' docs/phase-2-rollout-activation.json)" \
+            >> "$GITHUB_OUTPUT"
+          echo "dates=$(jq -r '.accepted_dates | join(",")' docs/phase-2-rollout-activation.json)" \
+            >> "$GITHUB_OUTPUT"
+          echo "validation_mode=$(jq -r '.validation_mode // ""' docs/phase-2-rollout-activation.json)" \
+            >> "$GITHUB_OUTPUT"
+      - name: Restore schedule gate after checkout cleanup
+        if: ${{ always() }}
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_SCHEDULE: ${{ github.event.schedule }}
+          SCHEDULE_ELIGIBLE: ${{ steps.time_gate.outputs.schedule_eligible }}
+          SCHEDULED_FOR: ${{ steps.time_gate.outputs.scheduled_for }}
+        run: |
+          printf '{"eligible":%s,"event_name":"%s","schedule_expression":"%s","scheduled_for":"%s"}\n' \
+            "$SCHEDULE_ELIGIBLE" "$EVENT_NAME" "$EVENT_SCHEDULE" "$SCHEDULED_FOR" \
+            > schedule-gate.json
+      - uses: actions/setup-python@v6
+        if: ${{ steps.time_gate.outputs.run == 'true' }}
+        with:
+          python-version: "3.12"
+      - if: ${{ steps.time_gate.outputs.run == 'true' }}
+        run: pip install -r engine/requirements.txt
+      - name: Install read-only Drive CLI
+        if: ${{ steps.time_gate.outputs.run == 'true' && (vars.BUSINESS_CONTEXT_ENABLED == 'true' || vars.DOCUSIGN_NIGHTLY_ENABLED == 'true') }}
+        run: ./scripts/install_pinned_rclone.sh
+      - name: Run deterministic test suite
+        if: ${{ steps.time_gate.outputs.run == 'true' && github.event_name == 'workflow_dispatch' }}
+        run: |
+          for test_file in engine/tests/test_*.py; do
+            python "$test_file"
+          done
+          python -m compileall -q engine reasoning migrations
+          PYTHONPATH=engine python -m runtime.field_policy
+          python reasoning/build_prompt.py >/dev/null
+      - name: Install managed schema
+        if: ${{ steps.time_gate.outputs.run == 'true' && github.event_name == 'workflow_dispatch' && inputs.setup_schema }}
+        env:
+          MONDAY_API_TOKEN: ${{ secrets.MONDAY_API_KEY }}
+          MONDAY_AGENT_EVENTS_BOARD_ID: ${{ vars.MONDAY_AGENT_EVENTS_BOARD_ID }}
+          BUSINESS_LISTENING_WRITE_KILL_SWITCH: ${{ vars.BUSINESS_LISTENING_WRITE_KILL_SWITCH }}
+        run: PYTHONPATH=engine python -m runtime.schema_main
+      - name: Verify zero-token monday schema contract
+        if: ${{ steps.time_gate.outputs.run == 'true' }}
+        env:
+          MONDAY_API_TOKEN: ${{ secrets.MONDAY_API_KEY }}
+          MONDAY_API_VERSION: ${{ vars.MONDAY_API_VERSION }}
+        run: >-
+          PYTHONPATH=engine python -m runtime.schema_guard_main
+          > monday-schema-contract.json
+      - name: Run email reconciliation
+        if: ${{ steps.time_gate.outputs.run == 'true' }}
+        env:
+          MONDAY_API_TOKEN: ${{ secrets.MONDAY_API_KEY }}
+          MONDAY_AGENT_EVENTS_BOARD_ID: ${{ vars.MONDAY_AGENT_EVENTS_BOARD_ID }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          OPENROUTER_BASE_URL: ${{ vars.OPENROUTER_BASE_URL }}
+          OPENROUTER_MODEL: ${{ vars.OPENROUTER_MODEL }}
+          BUSINESS_CONTEXT_ENABLED: ${{ vars.BUSINESS_CONTEXT_ENABLED }}
+          NOTION_API_TOKEN: ${{ secrets.NOTION_API_TOKEN }}
+          NOTION_VERSION: ${{ vars.NOTION_VERSION }}
+          GOOGLE_DRIVE_RCLONE_REMOTE: ${{ vars.GOOGLE_DRIVE_RCLONE_REMOTE }}
+          RCLONE_CONFIG_HARBOR-DRIVE_TYPE: drive
+          RCLONE_CONFIG_HARBOR-DRIVE_SCOPE: drive.readonly
+          RCLONE_CONFIG_HARBOR-DRIVE_TOKEN: ${{ secrets.GOOGLE_DRIVE_RCLONE_TOKEN }}
+          RCLONE_CONFIG_HARBOR-DRIVE_CLIENT_ID: ${{ secrets.GOOGLE_DRIVE_OAUTH_CLIENT_ID }}
+          RCLONE_CONFIG_HARBOR-DRIVE_CLIENT_SECRET: ${{ secrets.GOOGLE_DRIVE_OAUTH_CLIENT_SECRET }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_DEAL_ALERTS_CHANNEL: ${{ vars.SLACK_DEAL_ALERTS_CHANNEL || 'deal-alerts' }}
+          SLACK_USER_IDS_BY_MONDAY_ID: ${{ vars.SLACK_USER_IDS_BY_MONDAY_ID }}
+          EMAIL_LISTENING_ACTIVATED_AT: ${{ vars.EMAIL_LISTENING_ACTIVATED_AT }}
+          # Harbor owner explicitly approved OpenRouter + DeepSeek V4 Pro for
+          # live client-email reasoning on 2026-08-19.
+          EMAIL_REASONING_APPROVED: ${{ vars.EMAIL_REASONING_APPROVED }}
+          EMAIL_AUTOMATIC_WRITES_APPROVED: ${{ vars.EMAIL_AUTOMATIC_WRITES_APPROVED }}
+          BUSINESS_LISTENING_WRITE_KILL_SWITCH: ${{ vars.BUSINESS_LISTENING_WRITE_KILL_SWITCH }}
+          EMAIL_SHADOW_REVIEW_APPROVED: ${{ vars.EMAIL_SHADOW_REVIEW_APPROVED }}
+          EMAIL_IMMEDIATE_ROLLOUT_APPROVED: ${{ vars.EMAIL_IMMEDIATE_ROLLOUT_APPROVED }}
+          EMAIL_SHADOW_OBSERVATION_DATES: ${{ vars.EMAIL_SHADOW_OBSERVATION_DATES }}
+          EMAIL_RECONCILIATION_OVERLAP_HOURS: "72"
+          MAX_EMAIL_TIMELINE_ITEMS_PER_RUN: "500"
+          MAX_EMAIL_THREADS_PER_RUN: "50"
+          MAX_EMAIL_REASONING_PER_RUN: "20"
+          EMAIL_COMPLETION_CONFIDENCE: "0.90"
+          EMAIL_VERIFICATION_CUSTOM_ACTIVITY_ID: ${{ vars.EMAIL_VERIFICATION_CUSTOM_ACTIVITY_ID }}
+          EMAIL_CONTACT_IDENTITY_RESOLUTIONS: ${{ vars.EMAIL_CONTACT_IDENTITY_RESOLUTIONS }}
+          NUDGE_STALLED_HOURS: "36"
+          NUDGE_UNANSWERED_HOURS: "48"
+          EMAIL_RUN_MODE: ${{ vars.EMAIL_RUN_MODE }}
+          VERIFICATION_CONTACT_IDS: ${{ inputs.verification_contact_ids }}
+          SINCE_INPUT: ${{ inputs.since }}
+          ROLLOUT_FILE_LIVE: ${{ steps.rollout_state.outputs.live }}
+          ROLLOUT_FILE_DATES: ${{ steps.rollout_state.outputs.dates }}
+          ROLLOUT_FILE_VALIDATION_MODE: ${{ steps.rollout_state.outputs.validation_mode }}
+        run: |
+          MODE_FLAG="--shadow"
+          OBSERVATION_FLAG=""
+          INGEST_ONLY_FLAG="--ingest-only"
+          VERIFICATION_ARGS=()
+          if [[ "$EMAIL_REASONING_APPROVED" == "true" ]]; then
+            INGEST_ONLY_FLAG=""
+          fi
+          if [[ "${{ github.event_name }}" == "schedule" ]]; then
+            OBSERVATION_FLAG="--nightly-observation"
+            if [[ "$EMAIL_RUN_MODE" == "live" || "$ROLLOUT_FILE_LIVE" == "true" ]]; then
+              MODE_FLAG="--live"
+              OBSERVATION_FLAG=""
+              INGEST_ONLY_FLAG=""
+              if [[ "$ROLLOUT_FILE_LIVE" == "true" ]]; then
+                export EMAIL_AUTOMATIC_WRITES_APPROVED=true
+                export EMAIL_SHADOW_REVIEW_APPROVED=true
+                export EMAIL_SHADOW_OBSERVATION_DATES="$ROLLOUT_FILE_DATES"
+                if [[ "$ROLLOUT_FILE_VALIDATION_MODE" == "bounded_live_canary" ]]; then
+                  export EMAIL_IMMEDIATE_ROLLOUT_APPROVED=true
+                fi
+              fi
+            fi
+          elif [[ "${{ inputs.live }}" == "true" ]]; then
+            if [[ -z "$VERIFICATION_CONTACT_IDS" ]]; then
+              echo "::error::manual live verification requires verification_contact_ids"
+              exit 1
+            fi
+            MODE_FLAG="--live"
+            INGEST_ONLY_FLAG=""
+            VERIFICATION_ARGS=(--verification-contact-ids "$VERIFICATION_CONTACT_IDS")
+          fi
+          PYTHONPATH=engine python -m runtime.email_main \
+            "$MODE_FLAG" $OBSERVATION_FLAG $INGEST_ONLY_FLAG \
+            "${VERIFICATION_ARGS[@]}" \
+            --since "$SINCE_INPUT" \
+            --report email-shadow-report.json >/dev/null
+      - name: Run bounded executed-contract reconciliation after email
+        if: ${{ always() && steps.time_gate.outputs.run == 'true' && vars.DOCUSIGN_NIGHTLY_ENABLED == 'true' }}
+        env:
+          MONDAY_API_TOKEN: ${{ secrets.MONDAY_API_KEY }}
+          MONDAY_AGENT_EVENTS_BOARD_ID: ${{ vars.MONDAY_AGENT_EVENTS_BOARD_ID }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          OPENROUTER_BASE_URL: ${{ vars.OPENROUTER_BASE_URL }}
+          OPENROUTER_MODEL: ${{ vars.OPENROUTER_MODEL }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_DEAL_ALERTS_CHANNEL: ${{ vars.SLACK_DEAL_ALERTS_CHANNEL || 'deal-alerts' }}
+          DOCUSIGN_INTEGRATION_KEY: ${{ secrets.DOCUSIGN_INTEGRATION_KEY }}
+          DOCUSIGN_USER_ID: ${{ secrets.DOCUSIGN_USER_ID }}
+          DOCUSIGN_ACCOUNT_ID: ${{ secrets.DOCUSIGN_ACCOUNT_ID }}
+          DOCUSIGN_PRIVATE_KEY: ${{ secrets.DOCUSIGN_PRIVATE_KEY }}
+          DOCUSIGN_AUTH_SERVER: ${{ vars.DOCUSIGN_AUTH_SERVER || 'account.docusign.com' }}
+          DOCUSIGN_ACTIVATED_AT: ${{ vars.DOCUSIGN_ACTIVATED_AT }}
+          DOCUSIGN_REASONING_APPROVED: ${{ vars.DOCUSIGN_REASONING_APPROVED }}
+          DOCUSIGN_AUTOMATIC_WRITES_APPROVED: ${{ vars.DOCUSIGN_AUTOMATIC_WRITES_APPROVED }}
+          DOCUSIGN_DOCUMENT_ARCHIVE_APPROVED: ${{ vars.DOCUSIGN_DOCUMENT_ARCHIVE_APPROVED }}
+          DOCUSIGN_RECONCILIATION_OVERLAP_HOURS: "168"
+          DOCUSIGN_MAX_ENVELOPES_PER_RUN: "20"
+          BUSINESS_LISTENING_WRITE_KILL_SWITCH: ${{ vars.BUSINESS_LISTENING_WRITE_KILL_SWITCH }}
+          GOOGLE_DRIVE_WRITER_RCLONE_REMOTE: harbor-drive-writer
+          RCLONE_CONFIG_HARBOR-DRIVE-WRITER_TYPE: drive
+          RCLONE_CONFIG_HARBOR-DRIVE-WRITER_SCOPE: drive
+          RCLONE_CONFIG_HARBOR-DRIVE-WRITER_TOKEN: ${{ secrets.GOOGLE_DRIVE_WRITER_RCLONE_TOKEN }}
+          RCLONE_CONFIG_HARBOR-DRIVE-WRITER_CLIENT_ID: ${{ secrets.GOOGLE_DRIVE_OAUTH_CLIENT_ID }}
+          RCLONE_CONFIG_HARBOR-DRIVE-WRITER_CLIENT_SECRET: ${{ secrets.GOOGLE_DRIVE_OAUTH_CLIENT_SECRET }}
+        shell: bash
+        run: |
+          CONTRACT_MODE=shadow
+          if [[ "${{ vars.DOCUSIGN_RUN_MODE }}" == "live" ]]; then
+            CONTRACT_MODE=live
+          fi
+          PYTHONPATH=engine python -m runtime.docusign_main run \
+            --mode "$CONTRACT_MODE" \
+            --output docusign-contract-report.json >/dev/null
+      - name: Validate scheduled shadow observation
+        if: ${{ steps.time_gate.outputs.run == 'true' && github.event_name == 'schedule' && vars.EMAIL_RUN_MODE != 'live' && steps.rollout_state.outputs.live != 'true' }}
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          PYTHONPATH=engine python -m runtime.email_shadow_review \
+            --report email-shadow-report.json \
+            --output email-shadow-review.json \
+            --event-name "$EVENT_NAME" \
+            --expected-date "${{ steps.time_gate.outputs.scheduled_date }}" \
+            --scheduled-for "${{ steps.time_gate.outputs.scheduled_for }}" \
+            --schedule-expression "${{ github.event.schedule }}"
+      - name: Upload access-controlled email review report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: email-listening-${{ github.run_id }}
+          path: |
+            schedule-gate.json
+            email-shadow-report.json
+            email-shadow-review.json
+            docusign-contract-report.json
+            monday-schema-contract.json
+          if-no-files-found: warn
+          retention-days: 30

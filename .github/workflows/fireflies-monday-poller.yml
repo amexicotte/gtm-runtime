@@ -1,0 +1,111 @@
+name: harbor-monday-meeting-engine
+
+# Poll every 15 minutes during 8am-8pm ET, Monday-Saturday. This workflow has a
+# fresh path so GitHub registers only the current schedule, not retired crons.
+# Runs are offset
+# from common clock boundaries because GitHub may delay or drop scheduled work
+# during peak load. The rolling Fireflies lookback reconciles delayed
+# transcripts; monday IDs and meeting signatures make every run idempotent.
+on:
+  schedule:
+    - cron: "7,22,37,52 8-19 * * 1-6"
+      timezone: "America/New_York"
+    - cron: "0 20 * * 1-6"
+      timezone: "America/New_York"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Read sources without writing, posting, or calling the model"
+        type: boolean
+        default: false
+      setup_schema:
+        description: "Create missing managed columns for the final-write runtime"
+        type: boolean
+        default: false
+
+concurrency:
+  group: harbor-business-listening-writes
+  cancel-in-progress: false
+
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: pip install -r engine/requirements.txt
+      - name: Run deterministic PRD test suite
+        if: ${{ github.event_name != 'schedule' }}
+        run: |
+          for test_file in engine/tests/test_*.py; do
+            python "$test_file"
+          done
+          python -m compileall -q engine reasoning migrations
+      - name: Install monday runtime schema
+        id: schema_setup
+        if: ${{ inputs.setup_schema }}
+        continue-on-error: true
+        env:
+          MONDAY_API_TOKEN: ${{ secrets.MONDAY_API_KEY }}
+          MONDAY_AGENT_EVENTS_BOARD_ID: ${{ vars.MONDAY_AGENT_EVENTS_BOARD_ID }}
+          BUSINESS_LISTENING_WRITE_KILL_SWITCH: ${{ vars.BUSINESS_LISTENING_WRITE_KILL_SWITCH || 'false' }}
+        run: |
+          set -o pipefail
+          if [[ -z "$MONDAY_API_TOKEN" ]]; then
+            echo "MONDAY_API_KEY repository secret is missing or empty." | tee schema-setup.log
+            exit 1
+          fi
+          PYTHONPATH=engine python -m runtime.schema_main 2>&1 | tee schema-setup.log
+      - name: Publish monday schema diagnostic summary
+        if: ${{ inputs.setup_schema && always() }}
+        run: |
+          {
+            echo "### monday schema diagnostics"
+            echo '```text'
+            cat schema-setup.log
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload monday schema diagnostics
+        if: ${{ inputs.setup_schema && always() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: monday-schema-diagnostics
+          path: schema-setup.log
+          if-no-files-found: error
+          retention-days: 7
+      - name: Stop after schema failure
+        if: ${{ inputs.setup_schema && steps.schema_setup.outcome == 'failure' }}
+        run: |
+          echo "::error::monday schema setup failed. See the run Summary or download monday-schema-diagnostics."
+          exit 1
+      - name: Verify zero-token monday schema contract
+        env:
+          MONDAY_API_TOKEN: ${{ secrets.MONDAY_API_KEY }}
+          MONDAY_API_VERSION: ${{ vars.MONDAY_API_VERSION }}
+        run: >-
+          PYTHONPATH=engine python -m runtime.schema_guard_main
+      - name: Poll Fireflies, Slack, and monday
+        env:
+          MONDAY_API_TOKEN: ${{ secrets.MONDAY_API_KEY }}
+          FIREFLIES_API_KEY: ${{ secrets.FIREFLIES_API_KEY }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          OPENROUTER_MODEL: ${{ vars.OPENROUTER_MODEL }}
+          MONDAY_DEFAULT_OWNER_ID: ${{ vars.MONDAY_DEFAULT_OWNER_ID || '100000007' }}
+          MONDAY_AGENT_EVENTS_BOARD_ID: ${{ vars.MONDAY_AGENT_EVENTS_BOARD_ID }}
+          BUSINESS_EVENTS_ACTIVATED_AT: ${{ vars.BUSINESS_EVENTS_ACTIVATED_AT }}
+          BUSINESS_LISTENING_WRITE_KILL_SWITCH: ${{ vars.BUSINESS_LISTENING_WRITE_KILL_SWITCH || 'false' }}
+          FIREFLIES_LOOKBACK_DAYS: "2"
+          FIREFLIES_NOT_BEFORE: "2026-07-31T18:45:46Z"
+          NOTES_FALLBACK_HOURS: "12"
+          MAX_MEETINGS_PER_RUN: "50"
+          MAX_REASONING_PER_RUN: "3"
+          PROCESSING_STALE_MINUTES: "30"
+          TRANSCRIPT_WAIT_HOURS: "24"
+        run: >-
+          PYTHONPATH=engine python -m runtime.monday_main
+          --fail-on-meeting-errors
+          ${{ (inputs.dry_run && '--dry-run') || '' }}

@@ -1,0 +1,18 @@
+{
+  "accepted_dates": [],
+  "activated_at": "2026-08-19T21:49:05.071360+00:00",
+  "evidence": {
+    "cleanup_sha256": "607659ed2a5051bad6cd18623aee59d1dd5fc721e830d4994593069302903ccb",
+    "first_report_sha256": "67cbcea2ffb707db3f8de260ce983f34fbfb135dfb1b14e7254de5fa63205ff1",
+    "first_state_sha256": "c3fab3b8a10000020da812aab5381297a4d980174ae9b8e66b177adf2ce81ea2",
+    "preflight_sha256": "5e0f5da5b63c524f22b36d9b4ca785b1bae97dcde56e119798f3edce076d510d",
+    "retry_reasoning_calls": 0,
+    "retry_report_sha256": "45f768cac6a7bc93dd77d791d630b6c10000000021f579e0e12c6feda91237e3",
+    "retry_state_sha256": "635ae2ccabdbd190e28876b25b1000000022e7543473ad16872d5efbdde3bc75",
+    "shadow_state_sha256": "54cef1af91a27cdae342bd62cd80b8fc264880ada3912dc5cc9e100000023e91",
+    "verification_contact_id": "10000000011"
+  },
+  "live_enabled": true,
+  "schema_version": 1,
+  "validation_mode": "bounded_live_canary"
+}

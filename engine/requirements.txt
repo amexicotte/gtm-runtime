@@ -1,0 +1,7 @@
+# Runtime deps — deliberately minimal.
+requests>=2.31,<3
+PyYAML>=6,<7
+pypdf>=5,<7
+pdfplumber>=0.11,<1
+python-docx>=1.1,<2
+PyJWT[crypto]>=2.10,<3

@@ -1,0 +1,66 @@
+name: portfolio-pattern-weekly
+
+on:
+  workflow_dispatch:
+    inputs:
+      live:
+        description: "Persist the aggregate brief to private Agent Events"
+        type: boolean
+        default: false
+  schedule:
+    - cron: "41 12 * * 1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: harbor-business-listening-writes
+  cancel-in-progress: false
+
+jobs:
+  patterns:
+    if: ${{ github.event_name == 'workflow_dispatch' || vars.PORTFOLIO_PATTERN_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: engine/requirements.txt
+      - run: python -m pip install -r engine/requirements.txt
+      - name: Verify zero-token monday schema contract
+        env:
+          PYTHONPATH: engine
+          MONDAY_API_TOKEN: ${{ secrets.MONDAY_API_KEY }}
+          MONDAY_API_VERSION: ${{ vars.MONDAY_API_VERSION }}
+        run: python -m runtime.schema_guard_main
+      - name: Build advisory portfolio pattern brief
+        env:
+          PYTHONPATH: engine
+          MONDAY_API_TOKEN: ${{ secrets.MONDAY_API_KEY }}
+          MONDAY_AGENT_EVENTS_BOARD_ID: ${{ vars.MONDAY_AGENT_EVENTS_BOARD_ID }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          OPENROUTER_BASE_URL: ${{ vars.OPENROUTER_BASE_URL }}
+          OPENROUTER_MODEL: ${{ vars.OPENROUTER_MODEL }}
+          PORTFOLIO_REASONING_APPROVED: ${{ vars.PORTFOLIO_REASONING_APPROVED }}
+          PORTFOLIO_PATTERN_WRITES_APPROVED: ${{ vars.PORTFOLIO_PATTERN_WRITES_APPROVED }}
+          BUSINESS_LISTENING_WRITE_KILL_SWITCH: ${{ vars.BUSINESS_LISTENING_WRITE_KILL_SWITCH }}
+          LIVE_INPUT: ${{ inputs.live }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          MODE=--shadow
+          if [[ "$EVENT_NAME" == "schedule" || "$LIVE_INPUT" == "true" ]]; then
+            MODE=--live
+          fi
+          python -m runtime.portfolio_main "$MODE" \
+            --report portfolio-pattern-report.json >/dev/null
+      - name: Upload access-controlled aggregate brief
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: portfolio-pattern-${{ github.run_id }}
+          path: portfolio-pattern-report.json
+          retention-days: 30
+          if-no-files-found: error

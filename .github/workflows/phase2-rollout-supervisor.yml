@@ -1,0 +1,167 @@
+name: phase2-rollout-supervisor
+
+on:
+  workflow_dispatch:
+    inputs:
+      immediate_validation:
+        description: "Use owner-approved deterministic tests plus bounded live canary"
+        type: boolean
+        default: false
+  schedule:
+    # Runs well after the 02:00 ET email window in both DST states.
+    - cron: "15 10 * * *"
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: harbor-business-listening-writes
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PYTHONPATH: engine
+      MONDAY_API_TOKEN: ${{ secrets.MONDAY_API_KEY }}
+      MONDAY_API_VERSION: ${{ vars.MONDAY_API_VERSION }}
+      MONDAY_AGENT_EVENTS_BOARD_ID: ${{ vars.MONDAY_AGENT_EVENTS_BOARD_ID }}
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      OPENROUTER_BASE_URL: ${{ vars.OPENROUTER_BASE_URL }}
+      OPENROUTER_MODEL: ${{ vars.OPENROUTER_MODEL }}
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      SLACK_DEAL_ALERTS_CHANNEL: ${{ vars.SLACK_DEAL_ALERTS_CHANNEL }}
+      SLACK_USER_IDS_BY_MONDAY_ID: ${{ vars.SLACK_USER_IDS_BY_MONDAY_ID }}
+      EMAIL_LISTENING_ACTIVATED_AT: ${{ vars.EMAIL_LISTENING_ACTIVATED_AT }}
+      EMAIL_REASONING_APPROVED: ${{ vars.EMAIL_REASONING_APPROVED }}
+      EMAIL_VERIFICATION_CUSTOM_ACTIVITY_ID: ${{ vars.EMAIL_VERIFICATION_CUSTOM_ACTIVITY_ID }}
+      EMAIL_CONTACT_IDENTITY_RESOLUTIONS: ${{ vars.EMAIL_CONTACT_IDENTITY_RESOLUTIONS }}
+      BUSINESS_LISTENING_WRITE_KILL_SWITCH: ${{ vars.BUSINESS_LISTENING_WRITE_KILL_SWITCH }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+      - name: Read committed activation state
+        id: activation
+        run: |
+          echo "live=$(jq -r '.live_enabled // false' docs/phase-2-rollout-activation.json)" \
+            >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-python@v6
+        if: ${{ steps.activation.outputs.live != 'true' }}
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: engine/requirements.txt
+      - if: ${{ steps.activation.outputs.live != 'true' }}
+        run: python -m pip install -r engine/requirements.txt
+      - name: Collect only accepted scheduled 02:00 ET evidence
+        if: ${{ steps.activation.outputs.live != 'true' }}
+        id: collect
+        env:
+          IMMEDIATE_VALIDATION: ${{ github.event_name == 'workflow_dispatch' && inputs.immediate_validation }}
+        run: |
+          mkdir -p .artifacts/phase2-rollout
+          python scripts/reconcile_phase2_shadow_observations.py \
+            --output docs/phase-2-shadow-observations.json
+          cp docs/phase-2-shadow-observations.json \
+            .artifacts/phase2-rollout/shadow-observations.json
+          READY=$(jq -r .ready_for_live_verification docs/phase-2-shadow-observations.json)
+          if [[ "$IMMEDIATE_VALIDATION" == "true" ]]; then
+            READY=true
+          fi
+          echo "ready=$READY" >> "$GITHUB_OUTPUT"
+          echo "immediate_validation=$IMMEDIATE_VALIDATION" >> "$GITHUB_OUTPUT"
+      - name: Persist compact observation state when changed
+        if: ${{ steps.activation.outputs.live != 'true' }}
+        run: |
+          if git diff --quiet -- docs/phase-2-shadow-observations.json; then
+            exit 0
+          fi
+          git config user.name "Harbor rollout supervisor"
+          git config user.email "actions@users.noreply.github.com"
+          git add docs/phase-2-shadow-observations.json
+          git commit -m "Record Phase 2 shadow observation state"
+          git push origin HEAD:main
+      - name: Reset and snapshot only the disposable canary records
+        if: ${{ steps.collect.outputs.ready == 'true' }}
+        run: |
+          python scripts/prepare_phase2_verification_timeline.py --create \
+            > .artifacts/phase2-rollout/fixture.json
+          echo "EMAIL_VERIFICATION_CUSTOM_ACTIVITY_ID=$(jq -r .custom_activity_id .artifacts/phase2-rollout/fixture.json)" \
+            >> "$GITHUB_ENV"
+          python scripts/prepare_phase2_reversible_records.py --reset \
+            > .artifacts/phase2-rollout/reset.json
+          python scripts/verify_phase2_live_state.py preflight \
+            --output .artifacts/phase2-rollout/preflight.json
+      - name: Run and verify the first exact live canary
+        if: ${{ steps.collect.outputs.ready == 'true' }}
+        run: |
+          export EMAIL_AUTOMATIC_WRITES_APPROVED=true
+          export EMAIL_SHADOW_REVIEW_APPROVED=true
+          export EMAIL_IMMEDIATE_ROLLOUT_APPROVED="${{ steps.collect.outputs.immediate_validation }}"
+          export EMAIL_SHADOW_OBSERVATION_DATES
+          EMAIL_SHADOW_OBSERVATION_DATES="$(jq -r '.accepted_dates | join(",")' docs/phase-2-shadow-observations.json)"
+          python -m runtime.email_main --live \
+            --since "$EMAIL_LISTENING_ACTIVATED_AT" \
+            --verification-contact-ids 10000000011 \
+            --report .artifacts/phase2-rollout/first-report.json >/dev/null
+          python scripts/verify_phase2_live_state.py first \
+            --before .artifacts/phase2-rollout/preflight.json \
+            --output .artifacts/phase2-rollout/first-state.json
+      - name: Run the identical retry and require zero reasoning calls
+        if: ${{ steps.collect.outputs.ready == 'true' }}
+        run: |
+          export EMAIL_AUTOMATIC_WRITES_APPROVED=true
+          export EMAIL_SHADOW_REVIEW_APPROVED=true
+          export EMAIL_IMMEDIATE_ROLLOUT_APPROVED="${{ steps.collect.outputs.immediate_validation }}"
+          export EMAIL_SHADOW_OBSERVATION_DATES
+          EMAIL_SHADOW_OBSERVATION_DATES="$(jq -r '.accepted_dates | join(",")' docs/phase-2-shadow-observations.json)"
+          python -m runtime.email_main --live \
+            --since "$EMAIL_LISTENING_ACTIVATED_AT" \
+            --verification-contact-ids 10000000011 \
+            --report .artifacts/phase2-rollout/retry-report.json >/dev/null
+          jq -e '.threads_reasoned == 0' \
+            .artifacts/phase2-rollout/retry-report.json >/dev/null
+          python scripts/verify_phase2_live_state.py retry \
+            --before .artifacts/phase2-rollout/first-state.json \
+            --output .artifacts/phase2-rollout/retry-state.json
+      - name: Always clean the synthetic timeline fixture
+        if: ${{ always() && steps.collect.outputs.ready == 'true' }}
+        run: |
+          python scripts/prepare_phase2_verification_timeline.py --cleanup \
+            > .artifacts/phase2-rollout/cleanup.json
+      - name: Commit validated live activation
+        if: ${{ steps.collect.outputs.ready == 'true' }}
+        run: |
+          FINALIZE_ARGS=()
+          if [[ "${{ steps.collect.outputs.immediate_validation }}" == "true" ]]; then
+            FINALIZE_ARGS+=(--immediate-validation)
+          fi
+          python scripts/finalize_phase2_rollout.py \
+            --shadow-state docs/phase-2-shadow-observations.json \
+            --preflight .artifacts/phase2-rollout/preflight.json \
+            --first-state .artifacts/phase2-rollout/first-state.json \
+            --first-report .artifacts/phase2-rollout/first-report.json \
+            --retry-state .artifacts/phase2-rollout/retry-state.json \
+            --retry-report .artifacts/phase2-rollout/retry-report.json \
+            --cleanup .artifacts/phase2-rollout/cleanup.json \
+            "${FINALIZE_ARGS[@]}" \
+            --output docs/phase-2-rollout-activation.json
+          cp docs/phase-2-rollout-activation.json \
+            .artifacts/phase2-rollout/activation.json
+          git config user.name "Harbor rollout supervisor"
+          git config user.email "actions@users.noreply.github.com"
+          git add docs/phase-2-rollout-activation.json
+          git commit -m "Activate validated Phase 2 automatic writes"
+          git push origin HEAD:main
+      - name: Upload sanitized rollout evidence
+        if: ${{ always() && steps.activation.outputs.live != 'true' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: phase2-rollout-${{ github.run_id }}
+          path: .artifacts/phase2-rollout/
+          retention-days: 30
+          if-no-files-found: error

@@ -1,0 +1,22 @@
+{
+  "annual_goal": 1000000.0,
+  "dashboard_id": "10000017",
+  "dashboard_name": "Harbor Business Command Center",
+  "revenue_board_id": "10000000067",
+  "version": 1,
+  "widgets": {
+    "2026 Revenue Goal": "100000068",
+    "Active Client Delivery": "100000069",
+    "Active Clients by Status": "100000070",
+    "Current Pipeline (Open Deals)": "100000071",
+    "Estimated Closes (33%)": "100000072",
+    "Open Pipeline by Stage": "100000073",
+    "Pipeline Coverage Needed This Month": "100000074",
+    "Pipeline vs Coverage Needed": "100000075",
+    "Revenue Collected This Month": "100000076",
+    "Revenue Collected YTD": "100000077",
+    "Revenue vs Monthly Goal": "100000078",
+    "Top Active Deals by Value": "100000079"
+  },
+  "year": 2026
+}

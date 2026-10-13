@@ -1,0 +1,8 @@
+.DS_Store
+**/.DS_Store
+**/__pycache__/
+**/*.pyc
+engine/.venv/
+engine/.env
+engine/.env.*
+!engine/.env.example

@@ -1,0 +1,54 @@
+flowchart TD
+  subgraph OUT["OUTSIDE monday — harbor-gtm-engine (small usage-based API bill)"]
+    direction TB
+    FF["Fireflies transcript + attendee emails"]
+    DOM["Extract external attendee domains<br/>drop internal / notetaker / free-mail<br/><i>deterministic — no LLM</i>"]
+    GATE{"How many external<br/>companies on the call?"}
+    SKIP["0 -> internal only<br/>Skip / Gated"]
+    ONE["1 -> proceed automatically"]
+    MULTI["2+ -> Slack disambiguation<br/>human picks the PROSPECT;<br/>others flagged as partners"]
+    ROC["Resolve-or-CREATE Account by domain<br/>(+ Crunchbase enrich) + Contacts from attendees<br/><i>still deterministic</i>"]
+    LINK["Link meeting to BOTH companies (prospect + partner)<br/>Any Deal ties to the PROSPECT only<br/>set Processing Status = Ready"]
+    CTX["Slim prompt + config (fields/entities/routing)<br/>assembled by build_prompt.py"]
+    REASON["Reasoning — ONE pass<br/>OpenRouter · your model<br/>emits SEMANTIC JSON<br/><b>only token-heavy step</b>"]
+    WRITE["writer.py -> monday API<br/>maps semantic keys to LIVE column ids<br/>final values · overwrite mapped fields"]
+    FF --> DOM --> GATE
+    GATE -->|0| SKIP
+    GATE -->|1| ONE --> ROC
+    GATE -->|"2+"| MULTI --> ROC
+    ROC --> LINK --> REASON
+    CTX -. feeds .-> REASON
+    REASON --> WRITE
+  end
+
+  subgraph IN["INSIDE monday — $0 AI credits (regular automations are free)"]
+    direction TB
+    BOARDS["CRM boards = system of record<br/>Accounts · Contacts · Meetings · Deals · Activities"]
+  end
+
+  subgraph UI["SLACK — exclusive human UI"]
+    direction TB
+    SLACKPICK["pick an ambiguous prospect<br/>meeting flips to Ready"]
+    A1["listening summary + score / feedback"]
+    A2["open Activity reminders<br/>✅ marks Done"]
+  end
+
+  MULTI <-->|"Slack prompt / human pick"| SLACKPICK
+  ROC ==>|"new Account + Contacts"| BOARDS
+  WRITE ==>|"final values land here"| BOARDS
+  BOARDS --> A1
+  BOARDS <--> A2
+
+  classDef out fill:#eef4ff,stroke:#3b6fd4,color:#0b2545;
+  classDef inside fill:#f3eefe,stroke:#7a3ff2,color:#2a0a4a;
+  classDef heavy fill:#fff4e6,stroke:#e8890c,color:#5a3200,stroke-width:2px;
+  classDef ctx fill:#eafaf1,stroke:#1f9d55,color:#08351f;
+  classDef skip fill:#f4f4f4,stroke:#9aa,color:#555;
+  classDef human fill:#fdeef6,stroke:#c2367f,color:#5a0a34;
+  class FF,DOM,ONE,ROC,LINK,WRITE out;
+  class REASON heavy;
+  class CTX ctx;
+  class SKIP skip;
+  class MULTI human;
+  class BOARDS inside;
+  class A1,A2,SLACKPICK human;

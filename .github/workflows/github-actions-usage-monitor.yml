@@ -1,0 +1,68 @@
+name: github-actions-usage-monitor
+
+on:
+  workflow_dispatch:
+    inputs:
+      send_test_alert:
+        description: "Send a test Slack alert even below the threshold"
+        type: boolean
+        default: false
+  schedule:
+    # Offset from the top of the hour because GitHub scheduled events are
+    # best-effort and are more likely to be delayed during peak boundaries.
+    - cron: "23 9 * * *"
+      timezone: "America/New_York"
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: github-actions-usage-monitor
+  cancel-in-progress: true
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GITHUB_REPOSITORY_TOKEN: ${{ github.token }}
+      # Optional exact account-wide source. If absent, the monitor uses a
+      # conservative estimate from this repository's one-job workflow runs.
+      GITHUB_BILLING_READ_TOKEN: ${{ secrets.GITHUB_BILLING_READ_TOKEN }}
+      GITHUB_ACCOUNT: ${{ github.repository_owner }}
+      ACTIONS_MONTHLY_MINUTES_LIMIT: ${{ vars.ACTIONS_MONTHLY_MINUTES_LIMIT || '2000' }}
+      ACTIONS_USAGE_ALERT_THRESHOLDS: "75,90,100"
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      # Set a Slack user ID for a direct message; otherwise post to the existing
+      # deal-alerts channel (or the separately configured channel below).
+      SLACK_USAGE_ALERT_USER_ID: ${{ vars.SLACK_USAGE_ALERT_USER_ID }}
+      SLACK_USAGE_ALERT_CHANNEL: ${{ vars.SLACK_USAGE_ALERT_CHANNEL || 'deal-alerts' }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: engine/requirements.txt
+      - run: python -m pip install -r engine/requirements.txt
+      - name: Measure usage and alert once per crossed threshold
+        id: usage
+        env:
+          FORCE_ALERT: ${{ github.event_name == 'workflow_dispatch' && inputs.send_test_alert }}
+        run: |
+          FORCE_ARGS=()
+          if [[ "$FORCE_ALERT" == "true" ]]; then
+            FORCE_ARGS+=(--force-alert)
+          fi
+          PYTHONPATH=engine python -m runtime.github_actions_usage_main \
+            "${FORCE_ARGS[@]}" \
+            --marker .artifacts/github-actions-usage/alert.json
+      - name: Save durable threshold marker
+        if: ${{ steps.usage.outputs.marker_created == 'true' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ steps.usage.outputs.artifact_name }}
+          path: .artifacts/github-actions-usage/alert.json
+          retention-days: 90
+          if-no-files-found: error
